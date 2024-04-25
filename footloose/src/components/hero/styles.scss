@@ -1,0 +1,61 @@
+.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/hero-image2.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: rem(20) rem(50);
+    margin: rem(70) 0 0 0;
+    display: flex;
+    justify-content: center;
+
+    height: 100%;
+    max-width: 100%;
+    min-width: calc(100% - (#{$gap-3} *2));
+    flex-direction: column;
+
+    &__title {
+        font-size: rem(25);
+        color: white;
+
+        @include medium {
+            font-size: rem(40);
+        }
+    
+        @include large {
+            font-size: rem(50);
+        }
+    }
+
+    &__description {
+        color: white;
+        font-size: rem(15);
+
+        @include medium {
+            font-size: rem(18);
+        }
+    
+        @include large {
+            font-size: rem(15);
+        }
+    }
+
+    &__image {
+        width: rem(250);
+        border-radius: 50%;
+    }
+
+    @include medium {
+        margin-top: rem(70);
+        padding: rem(30) rem(50);
+    }
+
+    @include large {
+        padding: rem(30) rem(50);
+        margin: rem(70) 0 0 0;
+        height: rem(300);
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        //margin-top: rem(75);
+    }
+}

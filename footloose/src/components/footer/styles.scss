@@ -1,0 +1,40 @@
+.footer {
+    background-color: $secondary-color;
+    width: 100%;
+    padding: rem(30) rem(50);
+    height: auto;//rem(450);
+    align-items: center;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: rem(40);
+
+    &__copyright {
+        width: auto;
+        height: auto;
+        font-style: bold;
+        text-align: center;
+        color: white;
+        margin-top: rem(20);
+        text-align: center;
+
+        @include medium {
+            text-align: left;
+        }
+
+        @include large {
+            text-align: left;
+        }
+    }
+
+    @include medium {
+        height: auto;
+        flex-direction: column;
+        padding: rem(30) rem(50);
+    }
+
+    @include large {
+        height: auto;
+        flex-direction: row;
+    }
+}

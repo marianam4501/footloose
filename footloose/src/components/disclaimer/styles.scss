@@ -1,0 +1,23 @@
+.disclaimer {
+    font-size: rem(10);
+    text-align: right;
+    width: 100%;
+    
+    &__text {
+        font-size: 15px;
+        color: white;
+        text-align: justify;
+
+        
+        @include medium {
+            text-align: right;
+            font-size: rem(15);
+        }
+
+        @include large {
+            text-align: right;
+            font-size: rem(15);
+        }
+    }
+
+}

@@ -1,0 +1,66 @@
+.header {
+    background-color: $primary-color;
+    //height: rem(75);
+    min-width: 100%;
+    max-width: 100%;
+    position: fixed;
+    z-index: 3000;
+    padding: 0 rem(35);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+        width: rem(130);
+        border-radius: rem(10);
+        object-fit: cover;
+        margin: 0;
+
+        @include medium {
+            margin: 0;
+        }
+    
+        @include large {
+            margin-right: rem(20);
+        }
+    }
+
+    &__text {
+        font-size: rem(20);
+    }
+    &__text:hover {
+        font-size: rem(20);
+        color: $secondary-background-color !important;
+    }
+
+    &__menu {
+
+    }
+
+    &__menu:hover {
+        color: $primary-color !important;
+    }
+
+    &__background {
+        background-color: $secondary-background-color;
+    }
+
+    &__link {
+        margin-right: rem(5);
+        text-align: right;
+    }
+
+    &--container {
+        width: 100%;
+    }
+
+    @include medium {
+        justify-content: space-between;
+    }
+
+    @include large {
+        justify-content: left;
+    }
+}

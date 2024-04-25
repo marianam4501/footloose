@@ -1,0 +1,47 @@
+.socialMedia {
+    display: flex;
+    flex-direction: column;
+    
+    &__icons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+
+        &__link {
+            align-items: center;
+        }
+
+        &__logo {
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        &__title {
+            font-size: 20px;
+            color: white;
+            text-align: center;
+
+            @include medium {
+                text-align: center;
+            }
+
+            @include large {
+                text-align: left;
+            }
+        }
+    }
+}
+
+#socialMedia__title {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+
+    @include medium {
+        text-align: center;
+    }
+
+    @include large {
+        text-align: left;
+    }
+}
