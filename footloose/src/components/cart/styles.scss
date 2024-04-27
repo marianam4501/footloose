@@ -1,0 +1,42 @@
+.cart {
+    margin-top: rem(70);
+    padding: rem(50);
+    background-color: $background-color;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 3fr 0.01fr 1fr;
+    gap: rem(35);
+    overflow: scroll;
+
+    &__productList {
+        display: flex;
+        flex-direction: column;
+        gap: rem(15);
+    }
+
+    &__summary {
+        
+        &__total {
+            font-size: rem(25);
+            font-weight: bold;
+        }
+
+        &__checkout {
+            text-decoration: none;
+            color: white;
+        }
+    }
+}
+
+#vline {
+    border-left: solid rem(1) $secondary-background-color;
+}
+
+#checkout {
+    background-color: $text-highlight;
+    border-color: $text-highlight;
+}
+
+#checkout:hover {
+    background-color: darken($text-highlight, 5%);
+}

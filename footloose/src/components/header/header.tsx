@@ -1,48 +1,104 @@
 import "./styles.scss";
-import { FC } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FC, useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+//import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
+import { FaUserLarge } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa";
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from "recoil";
+import { cartState } from "../../atoms/cartState";
 
 interface HeaderProps {
-    children: React.ReactNode;
+  //children: React.ReactNode;
 }
 
-const Header: FC<HeaderProps> = ({children}) => {
+const Header: FC<HeaderProps> = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [cartList, setCartList] = useRecoilState(cartState);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen); // Toggle open state on click
+  };
+
+  const token = Cookies.get("token");
+  const user = Cookies.get("user");
+  const navigate = useNavigate();
+
+  const logout = () => {
+    Cookies.remove("token");
+    Cookies.remove("user");
+    setIsOpen(false);
+    setCartList([]);
+    navigate("/login");
+  };
+
+  useEffect(() => {
     
-    return(
-        <>
-        <header className="header">
-        <Navbar expand="lg" data-bs-theme="dark">
-            <Container>
-                <a href="/">
-                    <img
-                    className="header__logo"
-                    src="./images/logo3.png"
-                    alt="Footloose logo"
-                    />
-                </a>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+  },[]);
+
+  return (
+    <>
+      <header className="header">
+        <Navbar className="header_nav" expand="lg" data-bs-theme="dark">
+          <Container className="header--container">
+            <Link to="/">
+              <img
+                className="header__logo"
+                src="/images/logo3.png"
+                alt="Footloose logo"
+              />
+            </Link>
+            <div className="header__nav__navbar">
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link className="" href="/">Home</Nav.Link>
-                    <NavDropdown title="Categories" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                        Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">
-                        Separated link
-                    </NavDropdown.Item>
-                    </NavDropdown>
+                  <Link className="header__link" to="/">
+                    Home
+                  </Link>
+                  <Link className="header__link" to="/products">
+                    Products
+                  </Link>
                 </Nav>
-                </Navbar.Collapse>
-            </Container>
+              </Navbar.Collapse>
+              <div className="header__options">
+                <FaUserLarge
+                  className="header__options__option"
+                  data-target=".header__options__userOption"
+                  onClick={handleClick}
+                />
+                <div
+                  className="header__options__userOption"
+                  style={{ display: isOpen ? "flex" : "none" }}
+                >
+                  {token !== undefined ? 
+                  <>
+                    <p className="header__options__link">{user}</p> 
+                    <button className="header__options__link" onClick={logout}>
+                        Log out
+                    </button>
+                  </>
+                  : 
+                    <>
+                        <Link className="header__options__link" to="/login">
+                            Sign in
+                        </Link>
+                        <Link className="header__options__link" to="/">
+                            Sign up (soon)
+                        </Link>
+                    </>
+                  }
+                </div>
+                <FaShoppingCart className="header__options__option" onClick={() => {navigate("/cart")}}/>
+              </div>
+            </div>
+          </Container>
         </Navbar>
-            {/* <nav className="navbar navbar-expand-lg navbar-dark header--container">
+
+        {/* <nav className="navbar navbar-expand-lg navbar-dark header--container">
             <div className="container-fluid">
                 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,10 +113,9 @@ const Header: FC<HeaderProps> = ({children}) => {
                 </div>
             </div>
             </nav> */}
-        </header>
-        {children}
-        </>
-    );
+      </header>
+    </>
+  );
 };
 
 export default Header;

@@ -1,19 +1,15 @@
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
+import ProductDetails from "../../components/productDetails/productDetails";
 
-
-const ProductDetails = () => {
+const ProductDetailsView = () => {
     return(
         <>
-            <Header>
-            <>
-            </>
-            </Header>
-            <Footer>
-            <></>
-            </Footer>
+            <Header />
+            <ProductDetails></ProductDetails>
+            <Footer><></></Footer>
         </>
     )
 }
 
-export default ProductDetails;
+export default ProductDetailsView;

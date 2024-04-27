@@ -16,7 +16,7 @@ const ProductList: FC<ProductListProps> = ({children}) => {
         <>
         <div className="productlist" id="productlist">
             {productList.map((product)=>{//key={uuidv4()}
-                return <Link key={uuidv4()} className="productlist__item" to="details/">
+                return <Link key={uuidv4()} className="productlist__item" to={"details/"+product.id}>
                     <Card className="productlist__item">
                         <Card.Img className="productlist__item__image" variant="top" src={product.image || "./images/shoes1.jpg"} alt={product.name + " image"}/>
                         <Card.Body>

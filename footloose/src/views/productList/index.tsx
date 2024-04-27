@@ -11,7 +11,7 @@ import { sizeState } from "../../atoms/sizeState";
 import { brandState } from "../../atoms/brandState";
 
 
-const Home = () => {
+const ProductListView = () => {
 
     const [productList, setProductList] = useRecoilState(productState);
     const [categoryList, setCategoryList] = useRecoilState(categoryState);
@@ -57,4 +57,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default ProductListView;

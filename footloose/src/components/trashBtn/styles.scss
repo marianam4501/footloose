@@ -1,0 +1,15 @@
+.trashBtn {
+    color: $primary-color;
+    width: rem(25);
+    height: auto;
+
+    &__container {
+        border: none;
+        background-color: none;
+    }
+}
+
+#container {
+    border: none;
+    background-color: white;
+}

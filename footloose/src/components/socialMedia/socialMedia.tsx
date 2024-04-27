@@ -18,7 +18,7 @@ const SocialMedia = () => {
                 >
                   <img
                     className="socialMedia__icons__logo"
-                    src="./images/facebook.png"
+                    src="/images/facebook.png"
                     alt="Facebook logo"
                   />
                 </a>
@@ -29,7 +29,7 @@ const SocialMedia = () => {
                 >
                   <img
                     className="socialMedia__icons__logo"
-                    src="./images/instagram.jpg"
+                    src="/images/instagram.jpg"
                     alt="Instagram logo"
                   />
                 </a>
@@ -40,7 +40,7 @@ const SocialMedia = () => {
                 >
                   <img
                     className="socialMedia__icons__logo"
-                    src="./images/x.avif"
+                    src="/images/x.avif"
                     alt="X logo"
                   />
                 </a>
