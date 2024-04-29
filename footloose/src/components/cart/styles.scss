@@ -3,8 +3,8 @@
     padding: rem(50);
     background-color: $background-color;
     height: 100%;
-    display: grid;
-    grid-template-columns: 3fr 0.01fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: rem(35);
     overflow: scroll;
 
@@ -26,10 +26,32 @@
             color: white;
         }
     }
+
+    @include medium {
+        display: flex;
+        flex-direction: column;
+    }
+
+    @include large {
+        display: grid;
+        grid-template-columns: 3fr 0.01fr 1fr;
+    }
 }
 
 #vline {
-    border-left: solid rem(1) $secondary-background-color;
+    border-top: solid rem(1) $secondary-background-color;
+    margin-top: rem(35);
+
+    @include medium {
+        margin-top: rem(35);
+        border-top: solid rem(1) $secondary-background-color;
+    }
+
+    @include large {
+        margin-top: 0;
+        border-top: none;
+        border-left: solid rem(1) $secondary-background-color;
+    }
 }
 
 #checkout {

@@ -52,7 +52,7 @@ const Cart: FC<CartProps> = () => {
         <div className="cart">
             <div className="cart__productList">
                 {cartList.map((cartProduct: CartProductObject) => {
-                    return <CartProduct updateQuantity={updateQuantity} product={cartProduct} handleTrash={() => handleTrash(cartProduct)}></CartProduct>
+                    return <CartProduct checkout={false} updateQuantity={updateQuantity} product={cartProduct} handleTrash={() => handleTrash(cartProduct)}></CartProduct>
                 })}
             </div>
             <div id="vline"></div>

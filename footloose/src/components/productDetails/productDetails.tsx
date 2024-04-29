@@ -9,7 +9,6 @@ import { cartState } from "../../atoms/cartState";
 import { products } from "../../utils/data";
 import { FaShoppingCart } from "react-icons/fa";
 import { CartProductObject } from "../../utils/cartProductObject";
-import Cookies from 'js-cookie';
 import { UserObject } from "../../utils/userObject";
 import { users } from "../../utils/userData"
 import { v4 as uuidv4 } from 'uuid';
@@ -18,7 +17,7 @@ interface DetailsProps {}
 const ProductDetails: FC<DetailsProps> = () => {
     const { id } = useParams<{ id?: string }>(); // Specify id as optional
     const productId = id ? parseInt(id, 10) : undefined; // Convert id to integer or undefined
-    const username = Cookies.get("user");
+    const username = localStorage.getItem("user");
 
     // Validar si el id existe en la lista de productos.
     const [productList, setProductList] = useRecoilState(productState);
@@ -48,9 +47,10 @@ const ProductDetails: FC<DetailsProps> = () => {
 
     const handleAddToCart = () => {
         if(product){
+            console.log(selectedSize);
             if(user !== undefined)
             {
-                const newCartProduct: CartProductObject = {"id": uuidv4(),"product": product, "user": user, "quantity": quantity, "size":selectedSize};
+                const newCartProduct: CartProductObject = {"id": uuidv4(),"product": product, "user": user, "quantity": quantity, "size":(selectedSize !== "Select size" ? selectedSize : product.sizes[0])};
                 setCartList([...cartList, newCartProduct]);
                 console.log("Quantity: ", quantity, "Selected size: ", selectedSize, "Cart list: ", cartList, "Product: ", product);
             }

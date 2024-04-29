@@ -1,19 +1,14 @@
-import Checkout from "../../components/checkout/checkout";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
-import { useEffect } from "react";
+import NotFound from "../../components/notFound/notFound";
 
 
-const CheckoutView = () => {
-
-    useEffect(() => {
-        
-    }, []);
+const NotFoundView = () => {
     
     return(
         <>
             <Header />
-            <Checkout></Checkout>
+            <NotFound></NotFound>
             <Footer>
             <></>
             </Footer>
@@ -21,4 +16,4 @@ const CheckoutView = () => {
     )
 }
 
-export default CheckoutView;
+export default NotFoundView;

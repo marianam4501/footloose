@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import { users } from "../../utils/userData";
-import Cookies from 'js-cookie';
 
 interface LoginProps {
     //children: React.ReactNode;
@@ -17,7 +16,7 @@ const Login: FC<LoginProps> = () => {
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const navigate = useNavigate();
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
 
     function setUsernameValue(usernameInput: string) {
         const expresionRegular = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -48,8 +47,8 @@ const Login: FC<LoginProps> = () => {
         const response = verifyUser();
         if(response){
             setGoHome(true);
-            Cookies.set("token", "lksdfjlakdjklajdkf");
-            Cookies.set("user", username);
+            localStorage.setItem("token", "lksdfjlakdjklajdkf");
+            localStorage.setItem("user", username);
         } else {
             setGoHome(false);
             setErrorMessage("Your username or password is incorrect.");
@@ -74,7 +73,7 @@ const Login: FC<LoginProps> = () => {
     },[goHome]);
 
     useEffect(()=>{
-        if(token !== undefined){
+        if(token !== null){
             navigate("/");
         }
     },[]);

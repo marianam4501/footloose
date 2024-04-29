@@ -7,7 +7,6 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { FaUserLarge } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from "recoil";
 import { cartState } from "../../atoms/cartState";
@@ -24,20 +23,20 @@ const Header: FC<HeaderProps> = () => {
     setIsOpen(!isOpen); // Toggle open state on click
   };
 
-  const token = Cookies.get("token");
-  const user = Cookies.get("user");
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
   const navigate = useNavigate();
 
   const logout = () => {
-    Cookies.remove("token");
-    Cookies.remove("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsOpen(false);
     setCartList([]);
     navigate("/login");
   };
 
   useEffect(() => {
-    
+    console.log("token", token, "user", user);
   },[]);
 
   return (
@@ -74,7 +73,7 @@ const Header: FC<HeaderProps> = () => {
                   className="header__options__userOption"
                   style={{ display: isOpen ? "flex" : "none" }}
                 >
-                  {token !== undefined ? 
+                  {token !== null ? 
                   <>
                     <p className="header__options__link">{user}</p> 
                     <button className="header__options__link" onClick={logout}>

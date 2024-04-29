@@ -1,0 +1,41 @@
+.shippingAddressForm {
+    max-width: 100%;
+    border-color: $secondary-background-color !important;
+
+    &__title {
+        font-weight: bold;
+        font-size: rem(17);
+    }
+
+    &__italic {
+        font-weight: bold;
+        font-style: italic;
+        font-size: rem(15);
+    }
+
+    &__form {
+        width: 100%;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__preview {
+        overflow: hidden;
+    }
+
+    @include medium {
+        margin: 0 0 rem(30) 0;
+    }
+
+    @include large {
+        margin: 0 rem(50) rem(30) 0;
+    }
+}
+
+#shippingAddressForm {
+    max-width: 100%;
+    border-color: $secondary-background-color !important;
+}

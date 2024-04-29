@@ -1,5 +1,6 @@
 .cartProduct {
     display: flex;
+    flex-direction: column;
     gap: rem(40);
     padding: rem(15) rem(40) rem(15) rem(15);
     height: rem(400);
@@ -14,6 +15,18 @@
         height: 100%;
         object-fit: cover;
         border-radius: rem(5);
+
+        @include small {
+            max-width: 100%;
+        }
+    
+        @include medium {
+            max-width: 40%;
+        }
+    
+        @include large {
+            max-width: 40%;
+        }
     }
 
     &__infoContainer {
@@ -32,17 +45,70 @@
 
     &__shoppingInfo {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
 
         &__container{
             display: flex;
-            gap: rem(15)
+            gap: rem(15);
         }
+
+        &__price {
+            margin: 0 0 rem(20) 0;
+
+            @include medium {
+                margin: 0 0 rem(20) 0;
+            }
+        
+            @include large {
+                margin: 0;
+            }
+        }
+
+        @include medium {
+            flex-direction: column;
+            justify-content:left;
+        }
+    
+        @include large {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+
+    @include small {
+        flex-direction: row;
+    }
+
+    @include medium {
+        flex-direction: row;
+    }
+
+    @include large {
+        flex-direction: row;
     }
 }
 
 #productName {
     font-size: rem(25);
     font-weight: bold;
+}
+
+#cartProduct__img {
+    min-width: 40%;
+    min-height: 50%;
+    height: 40%;
+    object-fit: cover;
+    border-radius: rem(5);
+
+    @include small {
+        max-width: 100%;
+    }
+
+    @include medium {
+        max-width: 100%;
+    }
+
+    @include large {
+        max-width: 100%;
+    }
 }
