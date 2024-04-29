@@ -53,9 +53,7 @@ const CartProduct: FC<ProductProps> = ({
                   ) : (
                     <>
                       <Quantity
-                        updateQuantity={() => {
-                          updateQuantity(product.quantity, product.id);
-                        }}
+                        updateQuantity={updateQuantity}
                         product={product}
                       />
                       <TrashBtn

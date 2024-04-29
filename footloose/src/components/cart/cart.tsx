@@ -37,8 +37,13 @@ const Cart: FC<CartProps> = () => {
         
     }, [cartList]);
 
-    const updateQuantity = (quantity: number, productId: string) => {
+    useEffect(() => {
+        console.log(cartList);
         
+    }, []);
+
+    const updateQuantity = (quantity: number, productId: string) => {
+        console.log("new quantity for product",productId, "q",quantity);
         setCartList((prevCartList) =>
             prevCartList.map((cartProduct) =>
               cartProduct.id === productId ? { ...cartProduct, quantity } : cartProduct
