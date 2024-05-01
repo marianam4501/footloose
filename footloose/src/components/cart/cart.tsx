@@ -5,7 +5,7 @@ import CartProduct from "../cartProduct/cartProduct";
 import "./styles.scss";
 import { FC, useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 
 interface CartProps {
@@ -17,6 +17,8 @@ interface CartProps {
 const Cart: FC<CartProps> = () => {
     const [cartList, setCartList] = useRecoilState(cartState);
     const [total, setTotal] = useState<number>(0);
+    
+    const navigate = useNavigate();
 
     const handleTrash = (productToRemove: CartProductObject) => {
         setCartList((prevCartList: CartProductObject[]) =>
@@ -64,7 +66,7 @@ const Cart: FC<CartProps> = () => {
             <div className="cart__summary">
                 <h1 id="summary">Summary</h1>
                 <p className="cart__summary__total">Total: ${total}</p>
-                <Button id="checkout"><Link className="cart__summary__checkout" to="/checkout">Checkout</Link></Button>
+                <Button id="checkout" onClick={() => {navigate("/checkout")}}>Checkout</Button>
             </div>
         </div>
         </>

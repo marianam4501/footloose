@@ -1,3 +1,32 @@
 .filters {
-    
+  padding: rem(10);
+  margin: rem(10);
+  width: auto;
+
+  &--searchbar {
+    width: calc(100% - rem(100));
+    margin: rem(25) rem(50) 0 rem(50);
+  }
+}
+
+.dropdown-menu.show {
+    width: calc(100% - 100px);
+    display: flex;
+}
+
+#filterBtn {
+  width: calc(100% - 100px);
+  margin: rem(20) rem(50);
+  background-color: $text-highlight;
+  border-color: $text-highlight;
+  text-align: start;
+  font-size: rem(18);
+}
+
+#filterBtn:hover {
+  background-color: darken($text-highlight, 5%) !important;
+}
+
+.accordion-button:focus {
+  box-shadow: unset;
 }

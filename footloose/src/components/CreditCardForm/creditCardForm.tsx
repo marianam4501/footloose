@@ -1,7 +1,5 @@
 import { useState } from "react";
-import ReactCreditCards, {
-  Focused,
-} from "../../../node_modules/react-credit-cards-2";
+import ReactCreditCards, { Focused } from "react-credit-cards-2";
 import "./styles.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { Accordion, Col, Form, Row } from "react-bootstrap";
@@ -26,10 +24,7 @@ function CardForm() {
     switch (name) {
       case "number":
         if (
-          value.trim() === "" ||
-          !/^(?:\d{15,16}|\d{4}(?:(?:\s+\d{4}){3}|\s+\d{6}\s\d{5}))$/.test(
-            value
-          )
+          checkLuhn(value)
         ) {
           setErrors((prevErrors) => ({
             ...prevErrors,
@@ -78,6 +73,28 @@ function CardForm() {
         break;
     }
   };
+
+  function checkLuhn(cardNo: string): boolean {
+    const nDigits = cardNo.length;
+    let nSum = 0;
+    let isSecond = false;
+
+    for (let i = nDigits - 1; i >= 0; i--) {
+      let d = parseInt(cardNo[i], 10);
+
+      if (isSecond) {
+        d = d * 2;
+      }
+
+      // Sumar los dígitos de los números que tienen más de un dígito después de duplicarse
+      nSum += Math.floor(d / 10);
+      nSum += d % 10;
+
+      isSecond = !isSecond;
+    }
+
+    return nSum % 10 === 0;
+  }
 
   const validateCvc = (cvc: string): boolean => {
     // Obtener el tipo de tarjeta basado en el número
@@ -132,12 +149,12 @@ function CardForm() {
           <div className="cardForm__container">
             <div className="cardForm__creditCard">
               <ReactCreditCards
-            cvc={cvc}
-            name={name}
-            number={number}
-            expiry={expiry}
-            focused={focused}
-          />
+                cvc={cvc}
+                name={name}
+                number={number}
+                expiry={expiry}
+                focused={focused}
+              />
             </div>
             <div className="cardForm__form">
               <Form>

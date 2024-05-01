@@ -77,6 +77,11 @@
     border-color: $text-highlight;
 }
 
+#addToCartClicked {
+    background-color: $primary-color;
+    border-color: $primary-color;
+}
+
 #addToCart:hover {
     background-color: darken($text-highlight, 5%) !important;
     border-color: $text-highlight;

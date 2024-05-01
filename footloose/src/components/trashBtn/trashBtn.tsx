@@ -16,7 +16,7 @@ const TrashBtn: FC<TrashBtnProps> = ({handleClick, product}) => {
 
     return(
         <>
-            <button id="container" onClick={() => {handleClick(product)}}><FaRegTrashAlt className="trashBtn"/></button>
+            <button id="container" aria-label="delete product" onClick={() => {handleClick(product)}}><FaRegTrashAlt className="trashBtn" /></button>
         </>
     );
 };

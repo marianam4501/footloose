@@ -25,6 +25,7 @@ const ProductDetails: FC<DetailsProps> = () => {
     const [selectedSize, setSelectedSize] = useState<string>("Select size");
     const [quantity, setQuantity] = useState(1);
     const [user, setUser] = useState<UserObject>();
+    const [addedToCart, setAddedToCart] = useState<boolean>(false);
     
     // Ensure productId is valid before accessing productList
     const product = productId !== undefined ? productList.find(product => product.id === productId) : undefined;
@@ -43,6 +44,8 @@ const ProductDetails: FC<DetailsProps> = () => {
         setProductList(products());
         const foundUser = users.find((user: UserObject) => user.username === username);
         setUser(foundUser);
+        setAddedToCart(false);
+        console.log(addedToCart);
     }, []);
 
     const handleAddToCart = () => {
@@ -53,6 +56,7 @@ const ProductDetails: FC<DetailsProps> = () => {
                 const newCartProduct: CartProductObject = {"id": uuidv4(),"product": product, "user": user, "quantity": quantity, "size":(selectedSize !== "Select size" ? selectedSize : product.sizes[0])};
                 setCartList([...cartList, newCartProduct]);
                 console.log("Quantity: ", quantity, "Selected size: ", selectedSize, "Cart list: ", cartList, "Product: ", product);
+                setAddedToCart(true);
             }
         }
     };
@@ -87,7 +91,7 @@ const ProductDetails: FC<DetailsProps> = () => {
                                     <label className="productDetails__quantity__text">{quantity}</label>
                                     <Button id="productDetails__quantity__btn" onClick={handleIncrement}>+</Button>
                                 </div>
-                                <Button id="addToCart" onClick={handleAddToCart}><FaShoppingCart className="header__options__option" />Add to cart</Button>
+                                <Button id={addedToCart ? "addToCartClicked" : "addToCart"} onClick={addedToCart ? () => {} : handleAddToCart}> <FaShoppingCart className="header__options__option" />{addedToCart ? "Added!" : "Add to cart"}</Button>
                             </div>
 
                         </div>

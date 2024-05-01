@@ -1,3 +1,16 @@
-.pagination {
-    
+.pagination{
+    padding: 0 rem(50);
+    justify-content: center;
+    align-items: center;
+    &--text {
+        color: $text-highlight !important;
+    }
+
+    &--current {
+        background-color: $secondary-background-color !important;
+    }
+
+    &--disabledBtn {
+        color: gray !important;
+    }
 }

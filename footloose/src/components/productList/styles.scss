@@ -7,6 +7,17 @@
     justify-content: space-between;
     padding: 0 rem(50);
 
+    &--noShow {
+        display: grid;
+        grid-template-columns: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        height: auto;
+        justify-content: space-between;
+        padding: 0 rem(50);
+        margin: rem(90) 0;
+    }
+
     margin: rem(40) 0;
 
     flex-wrap: wrap;
