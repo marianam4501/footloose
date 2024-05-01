@@ -14,8 +14,7 @@ interface ProductListProps {
 const ProductList: FC<ProductListProps> = ({children}) => {
     const productList = useRecoilValue(productState);
     const paginationInfo = useRecoilValue(paginationState);
-    const [productsToShow, setProductsToShow] = useState<boolean>(true);
-    const noProductsRef = useRef<HTMLHeadingElement>(null);
+    const [productsToShow, setProductsToShow] = useState<boolean>(false);
 
     useEffect(() => {
         console.log("Products to show:",productList.length);
@@ -23,10 +22,6 @@ const ProductList: FC<ProductListProps> = ({children}) => {
             setProductsToShow(true);
         } else {
             setProductsToShow(false);
-
-            if (noProductsRef.current) {
-                noProductsRef.current.focus();
-            }
         }
     }, [productList]);
  
@@ -34,7 +29,7 @@ const ProductList: FC<ProductListProps> = ({children}) => {
     return(
         <>
         {!productsToShow ?
-            <div className="productlist--noShow" id="productlist" tabIndex={-1} ref={noProductsRef}><h1>There are no products to show.</h1></div>
+            <div className="productlist--noShow" id="productlist"><h1>There are no products to show.</h1></div>
              : <div className="productlist" id="productlist"> {productList.slice(paginationInfo.startIndex,paginationInfo.endIndex).map((product)=>{//key={uuidv4()}
                 return <Link key={uuidv4()} className="productlist__item" to={"details/"+product.id}>
                     <Card className="productlist__item">

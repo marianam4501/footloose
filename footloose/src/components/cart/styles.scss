@@ -15,7 +15,25 @@
     }
 
     &__summary {
+        height: 100%;
         
+        margin: 0 0 0 0;
+        height: 100%;
+        border-top: rem(1) solid $secondary-background-color;
+        padding: rem(25) 0;
+
+        @include medium {
+            margin: rem(25) 0 0 0;
+            border-top: rem(1) solid $secondary-background-color;
+        }
+    
+        @include large {
+            margin: 0 0 0 rem(30);
+            padding: 0 rem(25);
+            border-top: none;
+            border-left: rem(1) solid $secondary-background-color;
+        }
+
         &__total {
             font-size: rem(25);
             font-weight: bold;
@@ -34,24 +52,12 @@
 
     @include large {
         display: grid;
-        grid-template-columns: 3fr 0.01fr 1fr;
+        grid-template-columns: 3fr 1fr;
     }
 }
 
 #vline {
-    border-top: solid rem(1) $secondary-background-color;
-    margin-top: rem(35);
-
-    @include medium {
-        margin-top: rem(35);
-        border-top: solid rem(1) $secondary-background-color;
-    }
-
-    @include large {
-        margin-top: 0;
-        border-top: none;
-        border-left: solid rem(1) $secondary-background-color;
-    }
+    
 }
 
 #checkout {

@@ -62,7 +62,6 @@ const Cart: FC<CartProps> = () => {
                     return <CartProduct checkout={false} updateQuantity={updateQuantity} product={cartProduct} handleTrash={() => handleTrash(cartProduct)}></CartProduct>
                 })}
             </div>
-            <div id="vline"></div>
             <div className="cart__summary">
                 <h1 id="summary">Summary</h1>
                 <p className="cart__summary__total">Total: ${total}</p>
