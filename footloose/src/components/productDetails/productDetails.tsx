@@ -47,18 +47,18 @@ const ProductDetails: FC<DetailsProps> = () => {
         const foundUser = users.find((user: UserObject) => user.username === username);
         setUser(foundUser);
         setAddedToCart(false);
-        console.log(addedToCart);
+        //console.log(addedToCart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleAddToCart = () => {
         if(product && username){
-            console.log(selectedSize);
+            //console.log(selectedSize);
             if(user !== undefined)
             {
                 const newCartProduct: CartProductObject = {"id": uuidv4(),"product": product, "user": user, "quantity": quantity, "size":(selectedSize !== "Select size" ? selectedSize : product.sizes[0])};
                 setCartList([...cartList, newCartProduct]);
-                console.log("Quantity: ", quantity, "Selected size: ", selectedSize, "Cart list: ", cartList, "Product: ", product);
+                //console.log("Quantity: ", quantity, "Selected size: ", selectedSize, "Cart list: ", cartList, "Product: ", product);
                 setAddedToCart(true);
                 toast.success("Product added to cart!");
             }

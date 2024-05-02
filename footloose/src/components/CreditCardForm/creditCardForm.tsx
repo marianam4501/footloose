@@ -25,7 +25,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
   });
   
   useEffect(() => {
-    console.log(errors);
+    //console.log(errors);
     const hasErrors = Object.values(errors).some((error) => error !== "");
     handleReady(!hasErrors);
   }, [errors, handleReady]);

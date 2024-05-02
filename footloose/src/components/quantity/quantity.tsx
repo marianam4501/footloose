@@ -16,20 +16,20 @@ const Quantity: FC<QuantityProps> = ({ product, updateQuantity }) => {
 
   const handleDecrement = () => {
     if (quantity > 1) {
-      console.log("quantity - 1",quantity - 1);
+      //console.log("quantity - 1",quantity - 1);
       setQuantity(quantity - 1);
     }
-    console.log("quantity",quantity);
+    //console.log("quantity",quantity);
   };
 
   const handleIncrement = () => {
-    console.log("quantity + 1",quantity + 1);
+    //console.log("quantity + 1",quantity + 1);
     setQuantity(quantity + 1);
   };
 
   useEffect(() => {
     updateQuantity(quantity, product.id);
-    console.log("quantity",quantity);
+    //console.log("quantity",quantity);
   }, [quantity]);
 
   return (

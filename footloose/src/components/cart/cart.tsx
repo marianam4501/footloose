@@ -45,13 +45,13 @@ const Cart: FC<CartProps> = () => {
     }, [cartList]);
 
     const updateQuantity = (quantity: number, productId: string) => {
-        console.log("new quantity for product",productId, "q",quantity);
+        //console.log("new quantity for product",productId, "q",quantity);
         setCartList((prevCartList) =>
             prevCartList.map((cartProduct) =>
               cartProduct.id === productId ? { ...cartProduct, quantity } : cartProduct
             )
         );
-        console.log("new list", cartList);
+        //console.log("new list", cartList);
     }
 
     return(
