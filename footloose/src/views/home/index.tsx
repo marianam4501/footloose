@@ -26,7 +26,7 @@ const Home = () => {
     };
 
     // Seleccionar 10 productos aleatorios de la lista de productos
-    const randomIndexes = getRandomIndexes(products().length, 5);
+    const randomIndexes = getRandomIndexes(products().length, 10);
     const randomProducts = randomIndexes.map((index) => products()[index]);
 
     // Establecer los productos populares
