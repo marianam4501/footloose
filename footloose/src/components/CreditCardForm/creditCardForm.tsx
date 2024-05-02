@@ -126,6 +126,24 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     if (!isValidFormat1 && !isValidFormat2) {
       return "Invalid expiry date. Please enter the date in the format MM/YY or MM/YYYY.";
     }
+
+    const [month, year] = expiry.split("/").map((value) => parseInt(value, 10));
+
+    // Obtener los dos primeros dígitos del año actual
+    const currentYearFirstTwoDigits = new Date().getFullYear().toString().slice(0, 2);
+    
+    // Complementar los dos últimos dígitos del año ingresado por el usuario con los dos primeros dígitos del año actual
+    const fullYear = parseInt(currentYearFirstTwoDigits + year, 10);
+
+    // Obtener el mes y el año actual
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // Los meses en JavaScript se indexan desde 0
+
+    // Validar si el año ingresado es menor al año actual o si el mes es menor al mes actual para el año actual
+    if (fullYear < currentYear || (fullYear === currentYear && month < currentMonth)) {
+      return "The expiration date has already passed. Please enter a valid date.";
+    }
   
     return "";
   };
