@@ -60,6 +60,17 @@
 
         }
 
+        &__name {
+            text-decoration: none;
+            transition: color 0.3s ease-in-out; /* Add transition for smooth hover effect */
+        }
+
+        &__name:hover {
+            text-decoration: none;
+            color: $text-highlight;
+            //font-weight: bold;
+        }
+
         &__brand {
             text-decoration: none;
             font-style: bold;

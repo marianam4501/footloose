@@ -8,12 +8,13 @@
     justify-content: center;
 
     height: 100%;
+    min-height: 25%;
     max-width: 100%;
     min-width: calc(100% - (#{$gap-3} *2));
     flex-direction: column;
 
     &__title {
-        font-size: rem(25);
+        font-size: rem(20);
         color: white;
 
         @include medium {
@@ -27,7 +28,7 @@
 
     &__description {
         color: white;
-        font-size: rem(15);
+        font-size: rem(13);
 
         @include medium {
             font-size: rem(18);
@@ -46,12 +47,13 @@
     @include medium {
         margin-top: rem(70);
         padding: rem(30) rem(50);
+        min-height: 35%;
     }
 
     @include large {
         padding: rem(30) rem(50);
         margin: rem(70) 0 0 0;
-        height: rem(300);
+        min-height: 45%;
         width: 100%;
         display: flex;
         justify-content: center;

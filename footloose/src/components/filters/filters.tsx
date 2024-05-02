@@ -25,6 +25,7 @@ const Filter: FC<FilterProps> = () => {
 	const [productList, setProductList] = useRecoilState(productState);
 	const [selectedCategories, setSelectedCategories] = useState<any>({});
 	const [selectedBrands, setSelectedBrands] = useState<any>({});
+	const [hasChanged, setHasChanged] = useState<boolean>(false);
 
 	useEffect(() => {
 		const categorySet = new Set<string>();
@@ -59,6 +60,7 @@ const Filter: FC<FilterProps> = () => {
 	}, [productName]);
 
 	const handleFilterChange = (filter: string, filterType: string) => {
+		setHasChanged(true);
 		if (filterType === "category") {
 			setSelectedCategories((prevCategories: any) => {
 			const updatedCategories = {
@@ -96,26 +98,9 @@ const Filter: FC<FilterProps> = () => {
 		});
 	
 		setProductList(filteredProducts.length > 0 ? filteredProducts : []);
-		setProductsToShow(filteredProducts.length > 0 ? true : false);
-	}, [selectedCategories, selectedBrands]);
-
-	const handleOutsideClick = (event: MouseEvent) => {
-        // Verificar si el clic ocurrió fuera del dropdown y no hay productos para mostrar
-        if (productsToShow && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-            // Ocultar el dropdown
-            setProductsToShow(false);
-        }
-    };
-
-    useEffect(() => {
-        // Agregar un event listener para manejar los clics fuera del dropdown
-        document.addEventListener('click', handleOutsideClick);
-
-        // Limpiar el event listener cuando el componente se desmonte
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [productsToShow]);
+		setProductsToShow(filteredProducts.length > 0 && hasChanged? true : false);
+		//console.log(filteredProducts.length);
+	}, [selectedCategories, selectedBrands, hasChanged]);
  
 	return (
 		<>

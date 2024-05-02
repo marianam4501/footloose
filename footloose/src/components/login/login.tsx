@@ -14,7 +14,7 @@ const Login: FC<LoginProps> = () => {
     const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
     const [goHome, setGoHome] = useState<boolean>(false);
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("There is no error message.");
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -79,8 +79,16 @@ const Login: FC<LoginProps> = () => {
     },[]);
 
     return(
-        <>
-        <div className="login-form login">
+        <div className="login">
+        <div className="login__container">
+            <img className="login__image" src="images/hero-image2.jpg" alt="Login image"/>
+            <div className="login--flex">
+            {showErrorMessage && (
+                <p className="login__errorMsg">
+                    {errorMessage}
+                </p>)
+                
+            }   
             <Form className="login__form">
                 <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -102,18 +110,14 @@ const Login: FC<LoginProps> = () => {
                 />
                 </Form.Group>
                 
-                {showErrorMessage && (
-                    <p className="login__errorMsg">
-                        {errorMessage}
-                    </p>
-                )}
+                
 
                 <Button id="btn" className="my-3" variant="primary" onClick={handleLogIn} disabled={submitDisabled}>
                 Submit
                 </Button>
-            </Form>
+            </Form></div>
         </div>
-        </>
+        </div>
     );
 };
 

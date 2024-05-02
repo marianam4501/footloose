@@ -17,6 +17,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cartList, setCartList] = useRecoilState(cartState);
 
   const handleClick = () => {
@@ -42,17 +43,17 @@ const Header: FC<HeaderProps> = () => {
   return (
     <>
       <header className="header">
+        <Link to="/">
+            <img
+              className="header__logo"
+              src="/images/logo3.png"
+              alt="Footloose logo"
+            />
+        </Link>
         <Navbar className="header_nav" expand="lg" data-bs-theme="dark">
           <Container className="header--container">
-            <Link to="/">
-              <img
-                className="header__logo"
-                src="/images/logo3.png"
-                alt="Footloose logo"
-              />
-            </Link>
+            
             <div className="header__nav__navbar">
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                   <Link className="header__link" to="/">
@@ -75,7 +76,7 @@ const Header: FC<HeaderProps> = () => {
                 >
                   {token !== null ? 
                   <>
-                    <p className="header__options__link">{user}</p> 
+                    <Link to="" className="header__options__link">{user}</Link> 
                     <button className="header__options__link" onClick={logout}>
                         Log out
                     </button>
@@ -85,14 +86,15 @@ const Header: FC<HeaderProps> = () => {
                         <Link className="header__options__link" to="/login">
                             Sign in
                         </Link>
-                        <Link className="header__options__link" to="/">
+                        {/*<Link className="header__options__link" to="/">
                             Sign up (soon)
-                        </Link>
+                        </Link>*/}
                     </>
                   }
                 </div>
                 <FaShoppingCart className="header__options__option" onClick={() => {navigate("/cart")}}/>
               </div>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
             </div>
           </Container>
         </Navbar>

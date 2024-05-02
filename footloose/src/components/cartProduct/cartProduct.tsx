@@ -30,6 +30,7 @@ const CartProduct: FC<ProductProps> = ({
           <div className="row">
             <div className="col-md-4">
               <Card.Img
+                className="cartProduct__img img-fluid rounded-start"
                 id="cartProduct__img"
                 src={product.product.image}
                 alt={product.product.name}
@@ -37,6 +38,7 @@ const CartProduct: FC<ProductProps> = ({
             </div>
             <div className="col-md-8">
               <Card.Title id="productName">{product.product.name}</Card.Title>
+              <div className="cartProduct__container">
               <Card.Text className="container--card__price">
                 <p>{product.product.brand}</p> {/*Brand */}
                 <p>{product.product.category}</p> {/*Category */}
@@ -66,6 +68,7 @@ const CartProduct: FC<ProductProps> = ({
                   )}
                 </div>
               </Card.Text>
+              </div>
 
               <div className="productDetails__shoppingDetails"></div>
             </div>

@@ -1,125 +1,157 @@
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import ReactCreditCards, { Focused } from "react-credit-cards-2";
 import "./styles.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { Accordion, Col, Form, Row } from "react-bootstrap";
 
-function CardForm() {
-  const [number, setNumber] = useState<string | number>("");
-  const [name, setName] = useState<string>("");
-  const [focused, setFocused] = useState<Focused>("");
-  const [expiry, setExpiry] = useState("");
-  const [cvc, setCvc] = useState("");
-  const [type, setType] = useState("");
+type HandleReadyFunc = (isValid: boolean) => void;
+
+interface CardFormProps {
+  handleReady: HandleReadyFunc;
+}
+
+const CardForm: FC<CardFormProps> = ({ handleReady }) => {
+  const [cardNumber, setCardNumber] = useState<string>("");
+  const [cardName, setCardName] = useState<string>("");
+  const [focusedElement, setFocusedElement] = useState<Focused>("");
+  const [expiryDate, setExpiryDate] = useState<string>("");
+  const [cvv, setCvv] = useState<string>("");
+  const [cardType, setCardType] = useState<string>("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({
-    number: "",
-    name: "",
-    expiry: "",
-    cvc: "",
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
   });
+  
+  useEffect(() => {
+    console.log(errors);
+    const hasErrors = Object.values(errors).some((error) => error !== "");
+    handleReady(!hasErrors);
+  }, [errors, handleReady]);
+  
+  useEffect(() => {
+    if (cardNumber) {
+      const errorMessage = validateCardNumber(cardNumber);
+      setErrors((prevErrors) => ({ ...prevErrors, cardNumber: errorMessage }));
+    }
+  }, [cardNumber]);
+  
+  useEffect(() => {
+    const errorMessage = validateCardName(cardName);
+    setErrors((prevErrors) => ({ ...prevErrors, cardName: errorMessage }));
+  }, [cardName]);
+  
+  useEffect(() => {
+    if (expiryDate) {
+      const errorMessage = validateExpiryDate(expiryDate);
+      setErrors((prevErrors) => ({ ...prevErrors, expiryDate: errorMessage }));
+    }
+  }, [expiryDate]);
+  
+  useEffect(() => {
+    if (cvv) {
+      const errorMessage = validateCvv(cvv);
+      setErrors((prevErrors) => ({ ...prevErrors, cvv: errorMessage }));
+    }
+  }, [cvv, cardNumber]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     switch (name) {
-      case "number":
-        if (
-          checkLuhn(value)
-        ) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            number: "Invalid card number",
-          }));
-        } else {
-          setType(getCardType(value));
-          setErrors((prevErrors) => ({ ...prevErrors, number: "" }));
-        }
-        setNumber(value);
+      case "cardNumber":
+        setCardNumber(value);
         break;
-      case "name":
-        if (value.trim() === "") {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            name: "Cardholder name is required",
-          }));
-        } else {
-          setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
-        }
-        setName(value);
+      case "cardName":
+        setCardName(value);
         break;
-      case "expiry":
-        if (!/^\d{4}$/.test(value)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            expiry: "Invalid expiry date format (MM/YY)",
-          }));
-        } else {
-          setErrors((prevErrors) => ({ ...prevErrors, expiry: "" }));
-        }
-        setExpiry(value);
+      case "expiryDate":
+        setExpiryDate(value);
         break;
-      case "cvc":
-        if (validateCvc(value)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            cvc: "Invalid CVC",
-          }));
-        } else {
-          setErrors((prevErrors) => ({ ...prevErrors, cvc: "" }));
-        }
-        setCvc(value);
+      case "cvv":
+        setCvv(value);
         break;
       default:
         break;
     }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFocusedElement(e.target.name as Focused);
+  };
+
+  const validateCardNumber = (number: string): string => {
+    if (!/^\d{16}$/.test(number)) {
+      return "Invalid card number. Please enter a valid 16-digit number.";
+    }
+    if(!checkLuhn(number)){
+      return "Invalid card number. The number does not correspond to a valid card.";
+    }
+    setCardType(getCardType(number));
+    return "";
   };
 
   function checkLuhn(cardNo: string): boolean {
     const nDigits = cardNo.length;
     let nSum = 0;
     let isSecond = false;
-
+  
     for (let i = nDigits - 1; i >= 0; i--) {
       let d = parseInt(cardNo[i], 10);
-
+  
       if (isSecond) {
         d = d * 2;
       }
-
+  
       // Sumar los dígitos de los números que tienen más de un dígito después de duplicarse
       nSum += Math.floor(d / 10);
       nSum += d % 10;
-
+  
       isSecond = !isSecond;
     }
-
+  
     return nSum % 10 === 0;
   }
 
-  const validateCvc = (cvc: string): boolean => {
-    // Obtener el tipo de tarjeta basado en el número
-    // Validar el CVC según el tipo de tarjeta
-    switch (type) {
+  const validateCardName = (name: string): string => {
+    return !/\w+ \w+/.test(name) ? "Cardholder name is required." : "";
+  };
+
+  const validateExpiryDate = (expiry: string): string => {
+    const isValidFormat1 = /^\d{4}$/.test(expiry);
+    const isValidFormat2 = /^\d{2}\/\d{2}$/.test(expiry);
+  
+    if (!isValidFormat1 && !isValidFormat2) {
+      return "Invalid expiry date. Please enter the date in the format MM/YY or MM/YYYY.";
+    }
+  
+    return "";
+  };
+
+  const validateCvv = (cvv: string): string => {
+    if (!cardNumber) {
+      return "Please enter the card number first.";
+    }
+    switch (cardType) {
       case "Visa":
-        return /^\d{3}$/.test(cvc);
       case "MasterCard":
-        return /^\d{3}$/.test(cvc);
+        return !/^\d{3}$/.test(cvv)
+          ? "Invalid CVV. Please enter a 3-digit number."
+          : "";
       case "American Express":
-        return /^\d{4}$/.test(cvc);
+        return !/^\d{4}$/.test(cvv)
+          ? "Invalid CVV. Please enter a 4-digit number."
+          : "";
       default:
-        return /^\d{3,4}$/.test(cvc);
+        return !/^\d{3,4}$/.test(cvv) ? "CVV must contain only digits." : "";
     }
   };
 
   const getCardType = (number: string): string => {
-    // Lógica para determinar el tipo de tarjeta según el número
-    // Implementa tu propia lógica aquí
-    // Por ejemplo:
-    console.log("type", type);
     if (/^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/.test(number)) {
       return "Visa";
     } else if (
-      /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]   {4}$/.test(number)
+      /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/.test(number)
     ) {
       return "MasterCard";
     } else if (/^3[47][0-9-]{16}$/.test(number)) {
@@ -129,12 +161,7 @@ function CardForm() {
     }
   };
 
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setFocused(e.target.name as Focused);
-  };
-
   return (
-    //<div className="cardForm">
     <Accordion className="shippingAddressForm" id="">
       <Accordion.Item eventKey="0">
         <Accordion.Header id="shippingAddressForm__header">
@@ -149,11 +176,11 @@ function CardForm() {
           <div className="cardForm__container">
             <div className="cardForm__creditCard">
               <ReactCreditCards
-                cvc={cvc}
-                name={name}
-                number={number}
-                expiry={expiry}
-                focused={focused}
+                cvc={cvv}
+                name={cardName}
+                number={cardNumber}
+                expiry={expiryDate}
+                focused={focusedElement}
               />
             </div>
             <div className="cardForm__form">
@@ -163,68 +190,68 @@ function CardForm() {
                   as={Col}
                   lg={"12"}
                   md={"12"}
-                  controlId="number"
+                  controlId="cardNumber"
                 >
                   <Form.Label>Card Number</Form.Label>
                   <Form.Control
                     className="cardForm__form__entry"
                     type="text"
                     placeholder="Card Number"
-                    name="number"
-                    value={number}
+                    name="cardNumber"
+                    value={cardNumber}
                     onChange={handleInputChange}
                     onFocus={handleFocus}
-                    isInvalid={!!errors.number}
+                    isInvalid={!!errors.cardNumber}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.number}
+                    {errors.cardNumber}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="mb-2" as={Col} controlId="name">
+                <Form.Group className="mb-2" as={Col} controlId="cardName">
                   <Form.Label>Cardholder Name</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Cardholder Name"
-                    name="name"
-                    value={name}
+                    name="cardName"
+                    value={cardName}
                     onChange={handleInputChange}
                     onFocus={handleFocus}
-                    isInvalid={!!errors.name}
+                    isInvalid={!!errors.cardName}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.name}
+                    {errors.cardName}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Row className="mb-2">
-                  <Form.Group as={Col} controlId="expiry" md={"auto"}>
+                  <Form.Group as={Col} controlId="expiryDate" md={"auto"}>
                     <Form.Label>Expiry Date</Form.Label>
                     <Form.Control
                       className="mb-2"
                       type="text"
                       placeholder="MM/YY"
-                      name="expiry"
-                      value={expiry}
+                      name="expiryDate"
+                      value={expiryDate}
                       onChange={handleInputChange}
                       onFocus={handleFocus}
-                      isInvalid={!!errors.expiry}
+                      isInvalid={!!errors.expiryDate}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.expiry}
+                      {errors.expiryDate}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Form.Group as={Col} controlId="cvc">
-                    <Form.Label>CVC</Form.Label>
+                  <Form.Group as={Col} controlId="cvv">
+                    <Form.Label>CVV</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="CVC"
-                      name="cvc"
-                      value={cvc}
+                      placeholder="CVV"
+                      name="cvv"
+                      value={cvv}
                       onChange={handleInputChange}
                       onFocus={handleFocus}
-                      isInvalid={!!errors.cvc}
+                      isInvalid={!!errors.cvv}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.cvc}
+                      {errors.cvv}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
@@ -235,6 +262,6 @@ function CardForm() {
       </Accordion.Item>
     </Accordion>
   );
-}
+};
 
 export default CardForm;

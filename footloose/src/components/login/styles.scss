@@ -1,20 +1,72 @@
 .login{
-    width: 100%;
+    width: calc(100% - 100px);
     height: 100%;
     //padding: rem(20) 30%;
+    margin: rem(90) rem(50) rem(20) rem(50);
+    display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 
+    &--flex{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__container {  
+        width: 100%;
+        height: rem(318); 
+        display: grid;
+        grid-template-columns: 1fr;
+        border: rem(1) $secondary-background-color solid;
+        border-radius: rem(5);
+        justify-content: center;
+        align-content: center;
+
+        @include medium {
+            grid-template-columns: 1fr 3fr;
+        }
+
+        @include large {
+            grid-template-columns: 1fr 3fr;
+        }
+    }
     &__form {
-        margin: rem(20) 30%;
+        margin: rem(20);
+    }
+
+    &__image {
+        width: 100%;
+        height: rem(318);
+        border-radius: rem(5);
+        justify-content: center;
+        align-content: center;
+        background-position: center;
+        object-fit: cover;
+        display: none;
+
+        @include medium {
+            display: block;
+        } 
+
+        @include large {
+            display: block;
+        }
     }
 
     &__errorMsg {
-        margin: rem(10) 0;
+        margin: rem(270) 0 0 rem(21);
         position: fixed;
         color: red;
-        width: calc(40%);
-        text-align: end;
+        width: 50%;
+        text-wrap: wrap;
+
+        @include medium {
+            margin: rem(270) 0 0 rem(21);
+        } 
+
+        @include large {
+            margin: rem(270) 0 0 rem(21);
+        }
     }
 }
 

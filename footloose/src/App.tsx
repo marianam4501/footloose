@@ -20,6 +20,7 @@ function App() {
       <Route path="/details/:id" Component={ProductDetailsView} />
       <Route path="/products/details/:id" Component={ProductDetailsView} />
       <Route path="/notFound" Component={NotFoundView} />
+      <Route path="/*" Component={NotFoundView} />
       {/* <Route path="/cart" Component={CartView} />
       <Route path="/checkout" Component={CheckoutView} /> */}
       <Route element={<PrivateRoutes/>}>

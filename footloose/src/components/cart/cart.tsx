@@ -6,6 +6,7 @@ import "./styles.scss";
 import { FC, useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
 
 
 interface CartProps {
@@ -17,6 +18,7 @@ interface CartProps {
 const Cart: FC<CartProps> = () => {
     const [cartList, setCartList] = useRecoilState(cartState);
     const [total, setTotal] = useState<number>(0);
+    const [noProducts, setNoProducts] = useState(false);
     
     const navigate = useNavigate();
 
@@ -36,6 +38,10 @@ const Cart: FC<CartProps> = () => {
             });
         }
         setTotal(newTotal);
+
+        if(cartList.length > 0){
+            setNoProducts(false);
+        } else { setNoProducts(true) }
         
     }, [cartList]);
 
@@ -57,15 +63,22 @@ const Cart: FC<CartProps> = () => {
     return(
         <>
         <div className="cart">
-            <div className="cart__productList">
+            {!noProducts ? <div className="cart__productList">
                 {cartList.map((cartProduct: CartProductObject) => {
                     return <CartProduct checkout={false} updateQuantity={updateQuantity} product={cartProduct} handleTrash={() => handleTrash(cartProduct)}></CartProduct>
                 })}
-            </div>
+            </div> : <h1>There are no products added to cart.</h1>}
             <div className="cart__summary">
+                <ToastContainer 
+                    position="top-right"
+                    autoClose={5000}
+                    pauseOnHover={true}
+                    closeButton={true}
+                    hideProgressBar= {true}
+                />
                 <h1 id="summary">Summary</h1>
                 <p className="cart__summary__total">Total: ${total}</p>
-                <Button id="checkout" onClick={() => {navigate("/checkout")}}>Checkout</Button>
+                <Button id="checkout" onClick={!noProducts ? () => {navigate("/checkout")} : () => toast.error("You must add products first!")}>Checkout</Button>
             </div>
         </div>
         </>

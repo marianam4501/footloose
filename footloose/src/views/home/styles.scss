@@ -1,0 +1,75 @@
+.homePage{
+
+    &__gallery {
+        margin: rem(40) 0;
+
+        &__title {
+            margin: rem(10) rem(50); 
+        }
+
+        &__slider {
+            width: 90%;
+            margin: rem(40) rem(50);
+            justify-content: space-between;
+        }
+        &__container {
+            margin: rem(50) rem(50);
+            width: calc(100% - 100px);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: rem(20);
+
+            @include medium {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        
+            @include large {
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            } 
+        }
+
+        &__item {
+            //border: 1px solid $secondary-color;
+            width: 100%;
+            text-decoration: none;
+    
+            &:hover {
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+            }
+    
+            &__image {
+                height: rem(250);
+                object-fit: cover; 
+    
+            }
+    
+            &__name {
+                text-decoration: none;
+                transition: color 0.3s ease-in-out; /* Add transition for smooth hover effect */
+            }
+    
+            &__name:hover {
+                text-decoration: none;
+                color: $text-highlight;
+                //font-weight: bold;
+            }
+    
+            &__brand {
+                text-decoration: none;
+                font-style: bold;
+            }
+    
+            @include small {
+                width: 100%;
+            }
+    
+            @include medium {
+                width: 100%;
+            }
+        
+            @include large {
+                width: 100%
+            } 
+        }
+    }
+}

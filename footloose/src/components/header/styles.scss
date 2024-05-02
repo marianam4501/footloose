@@ -31,11 +31,23 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 100% !important;
+        min-width: 100%;
 
         &__navbar {
+            width: 100%;
             display: flex;
             flex-direction: row;
+            
+            justify-content: right;
+    
+            @include medium {
+                justify-content: right;
+            }
+        
+            @include large {
+                justify-content: space-between;
+            }
+            
         }
         @include medium {
             margin: 0;
@@ -44,10 +56,6 @@
         @include large {
             margin-right: rem(20);
         }
-    }
-
-    &--container{
-        width: inherit;
     }
 
     &__text {
@@ -131,14 +139,17 @@
         }
 
         &__link{
+            display: flex;
             background-color: $background-color;
             color:black;
-            border-radius: 5%;
+            border-radius: rem(5);
             border-color: white;
             border-style: solid;
             border-width: rem(1);
             text-decoration: none;
             padding:rem(5);
+            min-width: rem(250);
+            justify-content: center;
         }
 
         @include medium {
@@ -156,5 +167,22 @@
     }
 
     @include large {
+    }
+}
+
+.container {
+    min-width: 100%;
+}
+
+.navbar {
+    width: 100%;
+    justify-content: right;
+
+    @include medium {
+        justify-content: right;
+    }
+
+    @include large {
+        justify-content: space-between;
     }
 }

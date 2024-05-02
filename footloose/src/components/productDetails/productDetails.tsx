@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./styles.scss";
 import { FC, useEffect, useState } from 'react';
 import { Button, Card, Dropdown, DropdownButton, DropdownItem } from "react-bootstrap";
@@ -12,12 +12,14 @@ import { CartProductObject } from "../../utils/cartProductObject";
 import { UserObject } from "../../utils/userObject";
 import { users } from "../../utils/userData"
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from "react-toastify";
 interface DetailsProps {}
 
 const ProductDetails: FC<DetailsProps> = () => {
     const { id } = useParams<{ id?: string }>(); // Specify id as optional
     const productId = id ? parseInt(id, 10) : undefined; // Convert id to integer or undefined
     const username = localStorage.getItem("user");
+    const navigate = useNavigate();
 
     // Validar si el id existe en la lista de productos.
     const [productList, setProductList] = useRecoilState(productState);
@@ -49,7 +51,7 @@ const ProductDetails: FC<DetailsProps> = () => {
     }, []);
 
     const handleAddToCart = () => {
-        if(product){
+        if(product && username){
             console.log(selectedSize);
             if(user !== undefined)
             {
@@ -57,19 +59,24 @@ const ProductDetails: FC<DetailsProps> = () => {
                 setCartList([...cartList, newCartProduct]);
                 console.log("Quantity: ", quantity, "Selected size: ", selectedSize, "Cart list: ", cartList, "Product: ", product);
                 setAddedToCart(true);
+                toast.success("Product added to cart!");
             }
+        } else {
+            navigate("/login");
         }
     };
+
+    useEffect(() => {setAddedToCart(false);},[selectedSize]);
     
     return (
         <>
         {!product ? <NotFound /> :
         <div className="productDetails container">
-            <Card className="mb-3">
-                <Card.Body>
+            <Card className="mb-3 productDetails__body">
+                <Card.Body className="">
                     <div className="row">
                         <div className="col-md-4">
-                            <Card.Img src={product.image} className="img-fluid rounded-start" alt={product.name} />
+                            <Card.Img src={product.image} className="productDetails--card__img img-fluid rounded-start" alt={product.name} />
                         </div>
                         <div className="col-md-8">
                             <Card.Title>{product.name}</Card.Title>
@@ -91,9 +98,15 @@ const ProductDetails: FC<DetailsProps> = () => {
                                     <label className="productDetails__quantity__text">{quantity}</label>
                                     <Button id="productDetails__quantity__btn" onClick={handleIncrement}>+</Button>
                                 </div>
+                                <ToastContainer 
+                                    position="top-right"
+                                    autoClose={5000}
+                                    pauseOnHover={true}
+                                    closeButton={true}
+                                    hideProgressBar= {true}
+                                />
                                 <Button id={addedToCart ? "addToCartClicked" : "addToCart"} onClick={addedToCart ? () => {} : handleAddToCart}> <FaShoppingCart className="header__options__option" />{addedToCart ? "Added!" : "Add to cart"}</Button>
                             </div>
-
                         </div>
                     </div>
                 </Card.Body>
