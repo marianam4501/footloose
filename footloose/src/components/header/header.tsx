@@ -1,5 +1,5 @@
 import "./styles.scss";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -18,7 +18,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cartList, setCartList] = useRecoilState(cartState);
+  const [, setCartList] = useRecoilState(cartState);
 
   const handleClick = () => {
     setIsOpen(!isOpen); // Toggle open state on click
@@ -36,10 +36,6 @@ const Header: FC<HeaderProps> = () => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    console.log("token", token, "user", user);
-  },[]);
-
   return (
     <>
       <header className="header">
@@ -55,7 +51,7 @@ const Header: FC<HeaderProps> = () => {
             
             <div className="header__nav__navbar">
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
+                <Nav className="me-auto header__nav__toggleNav">
                   <Link className="header__link" to="/">
                     Home
                   </Link>
@@ -98,22 +94,6 @@ const Header: FC<HeaderProps> = () => {
             </div>
           </Container>
         </Navbar>
-
-        {/* <nav className="navbar navbar-expand-lg navbar-dark header--container">
-            <div className="container-fluid">
-                
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                    <a className="nav-link nav__link active" aria-current="page" href="/">Home</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            </nav> */}
       </header>
     </>
   );

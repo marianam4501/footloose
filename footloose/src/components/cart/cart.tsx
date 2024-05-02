@@ -6,7 +6,6 @@ import "./styles.scss";
 import { FC, useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from "react-toastify";
 
 
 interface CartProps {
@@ -45,11 +44,6 @@ const Cart: FC<CartProps> = () => {
         
     }, [cartList]);
 
-    useEffect(() => {
-        console.log(cartList);
-        
-    }, []);
-
     const updateQuantity = (quantity: number, productId: string) => {
         console.log("new quantity for product",productId, "q",quantity);
         setCartList((prevCartList) =>
@@ -69,16 +63,9 @@ const Cart: FC<CartProps> = () => {
                 })}
             </div> : <h1>There are no products added to cart.</h1>}
             <div className="cart__summary">
-                <ToastContainer 
-                    position="top-right"
-                    autoClose={5000}
-                    pauseOnHover={true}
-                    closeButton={true}
-                    hideProgressBar= {true}
-                />
                 <h1 id="summary">Summary</h1>
                 <p className="cart__summary__total">Total: ${total}</p>
-                <Button id="checkout" onClick={!noProducts ? () => {navigate("/checkout")} : () => toast.error("You must add products first!")}>Checkout</Button>
+                <Button id="checkout" disabled={!noProducts ? false : true} onClick={() => {navigate("/checkout")}}>Checkout</Button>
             </div>
         </div>
         </>

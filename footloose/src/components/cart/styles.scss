@@ -16,7 +16,7 @@
 
     &__summary {
         height: 100%;
-        
+        position: sticky;
         margin: 0 0 0 0;
         height: 100%;
         border-top: rem(1) solid $secondary-background-color;
@@ -28,10 +28,11 @@
         }
     
         @include large {
-            margin: 0 0 0 rem(30);
+            margin: 0 0 0 72%;
             padding: 0 rem(25);
             border-top: none;
             border-left: rem(1) solid $secondary-background-color;
+            position: fixed;
         }
 
         &__total {
@@ -54,10 +55,6 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
     }
-}
-
-#vline {
-    
 }
 
 #checkout {

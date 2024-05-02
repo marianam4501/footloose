@@ -70,13 +70,13 @@ const Login: FC<LoginProps> = () => {
         if(goHome){
             navigate("/");
         }
-    },[goHome]);
+    },[goHome, navigate]);
 
     useEffect(()=>{
         if(token !== null){
             navigate("/");
         }
-    },[]);
+    },[navigate, token]);
 
     return(
         <div className="login">

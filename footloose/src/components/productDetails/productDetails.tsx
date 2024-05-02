@@ -48,6 +48,7 @@ const ProductDetails: FC<DetailsProps> = () => {
         setUser(foundUser);
         setAddedToCart(false);
         console.log(addedToCart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleAddToCart = () => {

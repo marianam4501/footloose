@@ -11,19 +11,18 @@ import Filter from "../../components/filters/filters";
 
 const ProductListView = () => {
 
-    const [productList, setProductList] = useRecoilState(productState);
+    const [, setProductList] = useRecoilState(productState);
 
     useEffect(() => {
         setProductList(products());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
     return(
         <>
             <Header />
             <Filter/>
-            <ProductList>
-                <></>
-            </ProductList>
+            <ProductList/>
             <ListPagination />
             <Footer>
             <></>

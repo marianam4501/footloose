@@ -4,6 +4,7 @@
     margin: rem(70) 0 0;
     display: flex;
     flex-direction: column;
+    overflow: scroll;
 
     &__forms {
         display: flex;
@@ -23,10 +24,11 @@
         }
     
         @include large {
-            margin: 0 0 0 rem(30);
+            margin: 0 0 0 72%;
             padding: 0 rem(25);
             border-top: none;
             border-left: rem(1) solid $secondary-background-color;
+            position: fixed;
         }
 
         &__total {
