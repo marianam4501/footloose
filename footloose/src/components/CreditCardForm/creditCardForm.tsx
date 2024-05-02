@@ -35,6 +35,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
       const errorMessage = validateCardNumber(cardNumber);
       setErrors((prevErrors) => ({ ...prevErrors, cardNumber: errorMessage }));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardNumber]);
   
   useEffect(() => {
@@ -54,6 +55,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
       const errorMessage = validateCvv(cvv);
       setErrors((prevErrors) => ({ ...prevErrors, cvv: errorMessage }));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cvv, cardNumber]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardForm from "../creditCardForm/creditCardForm";
 import ShippingAddressForm from "../shippingAddressForm/shippingAddressForm";
 import { Button } from "react-bootstrap";
