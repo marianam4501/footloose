@@ -6,11 +6,11 @@ import { productState } from "../../atoms/productState";
 import { useRecoilState } from "recoil";
 import NotFound from "../notFound/notFound";
 import { cartState } from "../../atoms/cartState";
-import { products } from "../../utils/data";
+import { products } from "../../mockData/data";
 import { FaShoppingCart } from "react-icons/fa";
 import { CartProductObject } from "../../utils/cartProductObject";
 import { UserObject } from "../../utils/userObject";
-import { users } from "../../utils/userData"
+import { users } from "../../mockData/userData"
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from "react-toastify";
 interface DetailsProps {}

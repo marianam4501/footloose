@@ -1,4 +1,4 @@
-import { ProductObject } from "./productObject";
+//import { ProductObject } from "../utils/productObject";
 
 const all_products = [
     // Nike Men's Sneakers
