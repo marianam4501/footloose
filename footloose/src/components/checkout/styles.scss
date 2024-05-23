@@ -79,7 +79,7 @@
 
         &__list {
             width: 100%;
-            background-color: rgba($text-highlight, 15%);
+            background-color: rgba($secondary-background-color, 30%);
             border: rem(1) $secondary-background-color solid;
             border-radius: rem(5);
             margin: rem(20) rem(50) 0 0;
@@ -98,16 +98,18 @@
                 width: calc(100% - rem(50));
             }
         }
-
-        &__list:hover {
-            background-color: rgba($text-highlight, 40%);
-        }
     }
 
     &--justify{
         width: 100%;
         display: flex;
         justify-content: space-between;
+    }
+
+    &__products{
+        display: flex;
+        flex-direction: column;
+        gap: rem(15);
     }
 
     @include medium {

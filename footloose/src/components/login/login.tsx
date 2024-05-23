@@ -2,7 +2,11 @@ import "./styles.scss";
 import { FC, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { users } from "../../mockData/userData";
+//import { users } from "../../mockData/userData";
+import { ToastContainer, toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { userState } from "../../atoms/userState";
+import axios from "axios";
 
 interface LoginProps {
   //children: React.ReactNode;
@@ -18,7 +22,7 @@ const Login: FC<LoginProps> = () => {
     "There is no error message."
   );
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const [user, setUser] = useRecoilState(userState);
 
   function setUsernameValue(usernameInput: string) {
     const expresionRegular = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -44,28 +48,50 @@ const Login: FC<LoginProps> = () => {
     }
   }, [username, password]);
 
-  function handleLogIn() {
+  async function handleLogIn() {
+      setSubmitDisabled(true);
     //Hacer validacion, llamar al endpoint
-    const response = verifyUser();
-    if (response) {
-      setGoHome(true);
-      localStorage.setItem("token", "lksdfjlakdjklajdkf");
-      localStorage.setItem("user", username);
-    } else {
+    // const response = verifyUser();
+    // if (response) {
+    //   setGoHome(true);
+    // } else {
+    //   setGoHome(false);
+    //   toast.error("Your username or password is incorrect.");
+    //   // setErrorMessage("Your username or password is incorrect.");
+    //   // setShowErrorMessage(true);
+    // }
+    try {
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        email: username,
+        password: password
+      });
+      if (response.status === 200) {
+        setGoHome(true);
+        const token = response.data.token;
+        console.log(response.data);
+        try {
+          const response2 = await axios.get("http://localhost:8080/user/me", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          if(response2.status == 200){
+            setUser({
+              id: response2.data.id,
+              username: response2.data.username,
+              token: token,
+              role: response2.data.role.id,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    } catch (error) {
       setGoHome(false);
-      setErrorMessage("Your username or password is incorrect.");
-      setShowErrorMessage(true);
+      toast.error("Your username or password is incorrect.");
     }
-  }
-
-  function verifyUser() {
-    const foundUser = users.find((user) => user.username === username);
-
-    // Check if user is found and password matches
-    if (foundUser && foundUser.password === password) {
-      return true; // Login successful
-    }
-    return false; // Invalid username or password
   }
 
   useEffect(() => {
@@ -75,37 +101,38 @@ const Login: FC<LoginProps> = () => {
   }, [goHome, navigate]);
 
   useEffect(() => {
-    if (token !== null) {
+    if (user.token !== "") {
       navigate("/");
     }
-  }, [navigate, token]);
+  }, [navigate, user]);
 
   return (
     <div className="login">
-      <div className="login__container">
-        <img
-          className="login__image"
-          src="images/hero-image2.jpg"
-          alt="Login image"
-        />
-        <div className="login--flex">
-          {showErrorMessage && (
-            <p className="login__errorMsg">{errorMessage}</p>
-          )}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            pauseOnHover={true}
+            closeButton={true}
+            hideProgressBar={true}
+          />
           <Form className="login__form">
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+            <Form.Group controlId="formBasicEmail" className="mb-3">
+              <Form.Label className="login__label">Email address</Form.Label>{/*className="login__label"*/}
               <Form.Control
-                className="mb-3"
+                className=""
                 type="email"
                 placeholder="Enter your email"
                 /*value={username}*/
                 onChange={(e) => setUsernameValue(e.target.value)}
+                isInvalid={showErrorMessage}
               />
+              <Form.Control.Feedback type="invalid">
+                {errorMessage}
+              </Form.Control.Feedback>
             </Form.Group>
-
+            
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label className="login__label">Password</Form.Label>{/*className="login__label"*/}
               <Form.Control
                 type="password"
                 placeholder="Enter your password"
@@ -117,15 +144,12 @@ const Login: FC<LoginProps> = () => {
             <Button
               id="btn"
               className="my-3"
-              variant="primary"
               onClick={handleLogIn}
               disabled={submitDisabled}
             >
-              Submit
+              Sign in
             </Button>
           </Form>
-        </div>
-      </div>
     </div>
   );
 };

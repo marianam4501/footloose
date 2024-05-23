@@ -9,6 +9,7 @@ import CartView from './views/cart';
 import CheckoutView from './views/checkout';
 import NotFoundView from './views/notFound';
 import PrivateRoutes from './components/privateRoute/privateRoute';
+import RegisterView from './views/signup';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Route path="/" Component={Home} />
       <Route path="/products" Component={ProductListView} />
       <Route path="/login" Component={LoginView} />
+      <Route path="/register" Component={RegisterView} />
       <Route path="/details/:id" Component={ProductDetailsView} />
       <Route path="/products/details/:id" Component={ProductDetailsView} />
       <Route path="/notFound" Component={NotFoundView} />

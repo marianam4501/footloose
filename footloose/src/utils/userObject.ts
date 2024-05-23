@@ -1,6 +1,6 @@
 export interface UserObject {
     id: number,
     username: string,
-    password: string,
-    type: number[],
+    token: string,
+    role: number,
 }

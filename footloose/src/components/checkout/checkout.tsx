@@ -60,7 +60,7 @@ const Checkout = () => {
         </div>
         <div className="checkout__details__list">
           <p className="checkout__details__list__title">Products</p>
-          <div className="cart__productList">
+          <div className="chechout__products">
             {cartList.map((cartProduct: CartProductObject) => {
               return (
                 <CartProduct

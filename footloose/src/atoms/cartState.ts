@@ -4,7 +4,7 @@ import { CartProductObject } from '../utils/cartProductObject';
 import { recoilPersist } from 'recoil-persist';
 
 const {persistAtom} = recoilPersist({
-  key: 'recoilPersist',
+  key: 'cart',
   storage: localStorage,
 });
 

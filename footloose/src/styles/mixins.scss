@@ -13,3 +13,7 @@
 @mixin x-large {
     @media (min-width: 1800px) { @content; }
 }
+
+@mixin brandGradient {
+    background-image: linear-gradient(to bottom, $primary-color, $text-highlight); //linear-gradient(to right, $primary-color, $text-highlight, $secondary-background-color);
+}

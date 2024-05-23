@@ -1,10 +1,12 @@
+
+//import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
-import Login from "../../components/login/login";
+import SignUp from "../../components/signUp/signUp";
 import "./styles.scss";
 
-const LoginView = () => {
+const RegisterView = () => {
   const navigate = useNavigate();
 
     return(
@@ -17,8 +19,8 @@ const LoginView = () => {
                 alt="Login image"
             />
             <div className="loginRegister__container">
-                <Login/>
-                <button className="loginRegister__contentSwitch" onClick={() => {navigate("/register");}}> {"Already have an account? Sign In"} </button>
+                <SignUp />
+                <button className="loginRegister__contentSwitch" onClick={() => navigate("/login")}> Create an account </button>
             </div>
         </div>
         <Footer><></></Footer>
@@ -26,4 +28,4 @@ const LoginView = () => {
     )
 }
 
-export default LoginView;
+export default RegisterView;

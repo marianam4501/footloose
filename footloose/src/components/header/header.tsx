@@ -10,6 +10,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from "recoil";
 import { cartState } from "../../atoms/cartState";
+import { userState } from "../../atoms/userState";
 
 interface HeaderProps {
   //children: React.ReactNode;
@@ -24,13 +25,16 @@ const Header: FC<HeaderProps> = () => {
     setIsOpen(!isOpen); // Toggle open state on click
   };
 
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    setUser({
+      id: 0,
+      username: "",
+      token: "",
+      role: 0,
+    },);
     setIsOpen(false);
     setCartList([]);
     navigate("/login");
@@ -42,7 +46,7 @@ const Header: FC<HeaderProps> = () => {
         <Link to="/">
             <img
               className="header__logo"
-              src="/images/logo3.png"
+              src="/images/logo_letrasBlancas.png"
               alt="Footloose logo"
             />
         </Link>
@@ -70,9 +74,9 @@ const Header: FC<HeaderProps> = () => {
                   className="header__options__userOption"
                   style={{ display: isOpen ? "flex" : "none" }}
                 >
-                  {token !== null ? 
+                  {user.token !== "" ? 
                   <>
-                    <Link to="" className="header__options__link">{user}</Link> 
+                    <Link to="" className="header__options__link">{user.username}</Link> 
                     <button className="header__options__link" onClick={logout}>
                         Log out
                     </button>
