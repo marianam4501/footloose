@@ -2,13 +2,21 @@ import { FC, useEffect, useState } from "react";
 import "./styles.scss";
 import { Accordion, Col, Form, Row } from "react-bootstrap";
 
-type handleFunc = (ready: boolean) => void;
-
-interface ShippingProps {
-  handleReady: handleFunc
+interface ShippingAddressInfo {
+  address: string;
+  address2: string;
+  city: string;
+  province: string;
+  zipCode: string;
 }
 
-const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
+type handleFunc = (ready: boolean, info: ShippingAddressInfo) => void;
+
+interface ShippingProps {
+  handleReady: handleFunc;
+}
+
+const ShippingAddressForm: FC<ShippingProps> = ({ handleReady }) => {
   const [address, setAddress] = useState<string>("");
   const [address2, setAddress2] = useState<string>("");
   const [city, setCity] = useState("");
@@ -18,35 +26,58 @@ const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
     address: "",
     city: "",
     province: "",
-    zipCode: ""
+    zipCode: "",
   });
 
   useEffect(() => {
     const hasErrors = Object.values(errors).some((error) => error !== "");
-    handleReady(!hasErrors);
-  }, [errors, handleReady]);
+    const info: ShippingAddressInfo = {
+      address,
+      address2,
+      city,
+      province,
+      zipCode,
+    };
+    if (!hasErrors) {
+      handleReady(true, info);
+    }
+  }, [address, address2, city, errors, province, zipCode]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const zipCodeRegex = /^\d{5}$/; // Regular expression for 5 digits
     switch (name) {
       case "address":
-        setErrors((prevErrors) => ({ ...prevErrors, address: value ? "" : "The address field is required." }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          address: value ? "" : "The address field is required.",
+        }));
         setAddress(value);
         break;
       case "address2":
         setAddress2(value);
         break;
       case "city":
-        setErrors((prevErrors) => ({ ...prevErrors, city: value ? "" : "The city field is required." }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          city: value ? "" : "The city field is required.",
+        }));
         setCity(value);
         break;
       case "province":
-        setErrors((prevErrors) => ({ ...prevErrors, province: value ? "" : "Please select a province." }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          province: value ? "" : "Please select a province.",
+        }));
         setProvince(value);
         break;
       case "zipCode":
-        setErrors((prevErrors) => ({ ...prevErrors, zipCode: zipCodeRegex.test(value) ? "" : "Zip code must be a 5-digit number corresponding with Costa Rican format." }));
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          zipCode: zipCodeRegex.test(value)
+            ? ""
+            : "Zip code must be a 5-digit number corresponding with Costa Rican format.",
+        }));
         setZipCode(value);
         break;
       default:
@@ -56,7 +87,7 @@ const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
 
   const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setProvince(e.target.value);
-  }
+  };
 
   return (
     <Accordion className="shippingAddressForm" defaultActiveKey="0">
@@ -64,9 +95,11 @@ const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
         <Accordion.Header id="shippingAddressForm__header">
           <div>
             <p className="shippingAddressForm__title">Shipping Address</p>
-            <p className="shippingAddressForm__italic">Add your shipping information</p>
+            <p className="shippingAddressForm__italic">
+              Add your shipping information
+            </p>
             <p className="shippingAddressForm__preview">
-              Province: {province + " - "} City: {city  + " - "} Zip: {zipCode}
+              Province: {province + " - "} City: {city + " - "} Zip: {zipCode}
             </p>
           </div>
         </Accordion.Header>
@@ -100,12 +133,7 @@ const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
                 />
               </Form.Group>
               <Row className="mb-2">
-                <Form.Group
-                  className="mb-2"
-                  as={Col}
-                  md={"4"}
-                  controlId="city"
-                >
+                <Form.Group className="mb-2" as={Col} md={"4"} controlId="city">
                   <Form.Label>City</Form.Label>
                   <Form.Control
                     className="mb-2"
@@ -173,6 +201,6 @@ const ShippingAddressForm: FC<ShippingProps> = ({handleReady}) => {
       </Accordion.Item>
     </Accordion>
   );
-}
+};
 
 export default ShippingAddressForm;

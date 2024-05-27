@@ -2,7 +2,7 @@ import { ProductObject } from '../utils/productObject';
 import { UserObject } from '../utils/userObject';
 
 export interface CartProductObject {
-    id: string,
+    id: number,
     product: ProductObject,
     user: UserObject,
     quantity: number,

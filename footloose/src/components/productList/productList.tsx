@@ -1,11 +1,11 @@
 import { useRecoilValue } from "recoil";
-import { productState } from "../../atoms/productState";
 import { v4 as uuidv4 } from "uuid";
 import "./styles.scss";
 import { FC, useEffect, useState } from 'react';
 import { Card, /*Spinner*/ } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { paginationState } from "../../atoms/paginationState";
+import { productState } from "../../atoms/productState";
 
 interface ProductListProps {
     //children: React.ReactNode;

@@ -16,7 +16,6 @@ const Login: FC<LoginProps> = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
-  const [goHome, setGoHome] = useState<boolean>(false);
   const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(
     "There is no error message."
@@ -50,25 +49,14 @@ const Login: FC<LoginProps> = () => {
 
   async function handleLogIn() {
       setSubmitDisabled(true);
-    //Hacer validacion, llamar al endpoint
-    // const response = verifyUser();
-    // if (response) {
-    //   setGoHome(true);
-    // } else {
-    //   setGoHome(false);
-    //   toast.error("Your username or password is incorrect.");
-    //   // setErrorMessage("Your username or password is incorrect.");
-    //   // setShowErrorMessage(true);
-    // }
     try {
       const response = await axios.post("http://localhost:8080/auth/login", {
         email: username,
         password: password
       });
       if (response.status === 200) {
-        setGoHome(true);
         const token = response.data.token;
-        console.log(response.data);
+        // console.log(response.data);
         try {
           const response2 = await axios.get("http://localhost:8080/user/me", {
             headers: {
@@ -79,7 +67,7 @@ const Login: FC<LoginProps> = () => {
           if(response2.status == 200){
             setUser({
               id: response2.data.id,
-              username: response2.data.username,
+              username: response2.data.email,
               token: token,
               role: response2.data.role.id,
             });
@@ -89,16 +77,9 @@ const Login: FC<LoginProps> = () => {
         }
       }
     } catch (error) {
-      setGoHome(false);
       toast.error("Your username or password is incorrect.");
     }
   }
-
-  useEffect(() => {
-    if (goHome) {
-      navigate("/");
-    }
-  }, [goHome, navigate]);
 
   useEffect(() => {
     if (user.token !== "") {

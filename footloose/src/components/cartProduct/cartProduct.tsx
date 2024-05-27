@@ -5,22 +5,22 @@ import { CartProductObject } from "../../utils/cartProductObject";
 import TrashBtn from "../trashBtn/trashBtn";
 import { Card } from "react-bootstrap";
 
-type handleClickFunc = (product: CartProductObject) => void;
+//type handleClickFunc = (product: CartProductObject) => void;
 
-type updateFunc = (quantity: number, productId: string) => void;
+//type updateFunc = (quantity: number, productId: string) => void;
 
 interface ProductProps {
   //children: React.ReactNode;
   product: CartProductObject;
-  handleTrash: handleClickFunc;
-  updateQuantity: updateFunc;
+  //handleTrash: handleClickFunc;
+  //updateQuantity: updateFunc;
   checkout: boolean;
 }
 
 const CartProduct: FC<ProductProps> = ({
   product,
-  handleTrash,
-  updateQuantity,
+  //handleTrash,
+  //updateQuantity,
   checkout,
 }) => {
   return (
@@ -39,12 +39,12 @@ const CartProduct: FC<ProductProps> = ({
             <div className="col-md-8">
               <Card.Title id="productName">{product.product.name}</Card.Title>
               <div className="cartProduct__container">
-              <Card.Text className="container--card__price">
+              <div className="container--card__price">
                 <p>{product.product.brand}</p> {/*Brand */}
                 <p>{product.product.category}</p> {/*Category */}
                 <p>{product.size}</p> {/*Size */}
-              </Card.Text>
-              <Card.Text className="cartProduct__shoppingInfo">
+              </div>
+              <div className="cartProduct__shoppingInfo">
                 <p className="cartProduct__shoppingInfo__price">
                   ${product.product.price}
                 </p>{" "}
@@ -55,19 +55,19 @@ const CartProduct: FC<ProductProps> = ({
                   ) : (
                     <>
                       <Quantity
-                        updateQuantity={updateQuantity}
+                        //updateQuantity={updateQuantity}
                         product={product}
                       />
                       <TrashBtn
-                        handleClick={() => {
-                          handleTrash(product);
-                        }}
+                        // handleClick={() => {
+                        //   handleTrash(product);
+                        // }}
                         product={product}
                       />
                     </>
                   )}
                 </div>
-              </Card.Text>
+              </div>
               </div>
 
               <div className="productDetails__shoppingDetails"></div>

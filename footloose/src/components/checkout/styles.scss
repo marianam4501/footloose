@@ -12,6 +12,14 @@
         gap: rem(20);
     }
 
+    &__noProducts {
+        background-color: $background-color;
+        padding: rem(50) rem(50);
+        margin: rem(70) 0 0;
+        display: flex;
+        height: calc(100vh / 2);
+    }
+
     &__summary {
         margin: rem(25) 0 0 0;
         height: 100%;

@@ -5,32 +5,24 @@ import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
 import Hero from "../../components/hero/hero";
 import { useEffect, useState } from "react";
-import { products } from "../../mockData/data";
 import { ToastContainer } from "react-toastify";
 import { ProductObject } from "../../utils/productObject";
+import axios from "axios";
 
 const Home = () => {
   const [popularProducts, setPopularProducts] = useState<ProductObject[]>([]);
 
   useEffect(() => {
-    // Obtener una lista de índices aleatorios únicos dentro del rango de longitud de la lista de productos
-    const getRandomIndexes = (length: number, count: number) => {
-      const indexes: number[] = [];
-      while (indexes.length < count) {
-        const randomIndex = Math.floor(Math.random() * length);
-        if (!indexes.includes(randomIndex)) {
-          indexes.push(randomIndex);
-        }
+    const fetchPopularProducts = async () => {
+      try {
+        const response = await axios.get<ProductObject[]>('http://localhost:8080/product/featured');
+        setPopularProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching popular products:", error);
       }
-      return indexes;
     };
 
-    // Seleccionar 10 productos aleatorios de la lista de productos
-    const randomIndexes = getRandomIndexes(products().length, 10);
-    const randomProducts = randomIndexes.map((index) => products()[index]);
-
-    // Establecer los productos populares
-    setPopularProducts(randomProducts);
+    fetchPopularProducts();
   }, []);
 
   return (

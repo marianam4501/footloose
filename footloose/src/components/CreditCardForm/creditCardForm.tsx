@@ -4,7 +4,14 @@ import "./styles.scss";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { Accordion, Col, Form, Row } from "react-bootstrap";
 
-type HandleReadyFunc = (isValid: boolean) => void;
+interface CreditCardInfo {
+  cardNumber: string;
+  cardName: string;
+  expiryDate: string;
+  cvv: string;
+}
+
+type HandleReadyFunc = (isValid: boolean, info: CreditCardInfo) => void;
 
 interface CardFormProps {
   handleReady: HandleReadyFunc;
@@ -23,39 +30,45 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     expiryDate: "",
     cvv: "",
   });
-  
+
   useEffect(() => {
     //console.log(errors);
     const hasErrors = Object.values(errors).some((error) => error !== "");
-    handleReady(!hasErrors);
-  }, [errors, handleReady]);
-  
+    const info: CreditCardInfo = {
+      cardNumber,
+      cardName,
+      expiryDate,
+      cvv,
+    };
+    handleReady(!hasErrors, info);
+  }, [errors]);
+
   useEffect(() => {
     if (cardNumber) {
       const errorMessage = validateCardNumber(cardNumber);
       setErrors((prevErrors) => ({ ...prevErrors, cardNumber: errorMessage }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardNumber]);
-  
+
   useEffect(() => {
     const errorMessage = validateCardName(cardName);
     setErrors((prevErrors) => ({ ...prevErrors, cardName: errorMessage }));
   }, [cardName]);
-  
+
   useEffect(() => {
     if (expiryDate) {
       const errorMessage = validateExpiryDate(expiryDate);
       setErrors((prevErrors) => ({ ...prevErrors, expiryDate: errorMessage }));
     }
   }, [expiryDate]);
-  
+
   useEffect(() => {
     if (cvv) {
       const errorMessage = validateCvv(cvv);
       setErrors((prevErrors) => ({ ...prevErrors, cvv: errorMessage }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cvv, cardNumber]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +99,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     if (!/^\d{16}$/.test(number)) {
       return "Invalid card number. Please enter a valid 16-digit number.";
     }
-    if(!checkLuhn(number)){
+    if (!checkLuhn(number)) {
       return "Invalid card number. The number does not correspond to a valid card.";
     }
     setCardType(getCardType(number));
@@ -97,21 +110,21 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     const nDigits = cardNo.length;
     let nSum = 0;
     let isSecond = false;
-  
+
     for (let i = nDigits - 1; i >= 0; i--) {
       let d = parseInt(cardNo[i], 10);
-  
+
       if (isSecond) {
         d = d * 2;
       }
-  
+
       // Sumar los dígitos de los números que tienen más de un dígito después de duplicarse
       nSum += Math.floor(d / 10);
       nSum += d % 10;
-  
+
       isSecond = !isSecond;
     }
-  
+
     return nSum % 10 === 0;
   }
 
@@ -122,7 +135,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
   const validateExpiryDate = (expiry: string): string => {
     const isValidFormat1 = /^\d{4}$/.test(expiry);
     const isValidFormat2 = /^\d{2}\/\d{2}$/.test(expiry);
-  
+
     if (!isValidFormat1 && !isValidFormat2) {
       return "Invalid expiry date. Please enter the date in the format MM/YY or MM/YYYY.";
     }
@@ -130,8 +143,11 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     const [month, year] = expiry.split("/").map((value) => parseInt(value, 10));
 
     // Obtener los dos primeros dígitos del año actual
-    const currentYearFirstTwoDigits = new Date().getFullYear().toString().slice(0, 2);
-    
+    const currentYearFirstTwoDigits = new Date()
+      .getFullYear()
+      .toString()
+      .slice(0, 2);
+
     // Complementar los dos últimos dígitos del año ingresado por el usuario con los dos primeros dígitos del año actual
     const fullYear = parseInt(currentYearFirstTwoDigits + year, 10);
 
@@ -141,10 +157,13 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
     const currentMonth = currentDate.getMonth() + 1; // Los meses en JavaScript se indexan desde 0
 
     // Validar si el año ingresado es menor al año actual o si el mes es menor al mes actual para el año actual
-    if (fullYear < currentYear || (fullYear === currentYear && month < currentMonth)) {
-      return "The expiration date has already passed. Please enter a valid date.";
+    if (
+      fullYear < currentYear ||
+      (fullYear === currentYear && month < currentMonth)
+    ) {
+      return "";
     }
-  
+
     return "";
   };
 
@@ -170,9 +189,7 @@ const CardForm: FC<CardFormProps> = ({ handleReady }) => {
   const getCardType = (number: string): string => {
     if (/^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/.test(number)) {
       return "Visa";
-    } else if (
-      /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/.test(number)
-    ) {
+    } else if (/^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/.test(number)) {
       return "MasterCard";
     } else if (/^3[47][0-9-]{16}$/.test(number)) {
       return "American Express";

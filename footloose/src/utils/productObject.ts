@@ -5,9 +5,6 @@ export interface ProductObject {
     price: number;
     image: string;
     brand: string;
-    gender: string;
-    material: string;
-    sizes: string[];
-    colors: string[];
+    sizes: string;
     category: string;
 }
