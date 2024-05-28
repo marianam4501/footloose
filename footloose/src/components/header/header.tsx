@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from "recoil";
 import { cartState } from "../../atoms/cartState";
 import { userState } from "../../atoms/userState";
+import { roles } from "../../utils/roles";
 
 interface HeaderProps {
   //children: React.ReactNode;
@@ -40,6 +41,8 @@ const Header: FC<HeaderProps> = () => {
     navigate("/login");
   };
 
+  console.log(user);
+
   return (
     <>
       <header className="header">
@@ -59,9 +62,17 @@ const Header: FC<HeaderProps> = () => {
                   <Link className="header__link" to="/">
                     Home
                   </Link>
-                  <Link className="header__link" to="/products">
+                  {user.role == roles.ADMIN ? <Link className="header__link" to="/products">
+                    Product List
+                  </Link> : user.role == roles.USER ? <Link className="header__link" to="/products">
                     Products
-                  </Link>
+                  </Link> : <></>}
+                  {user.role == roles.ADMIN ? <Link className="header__link" to="/history">
+                    Orders Management
+                  </Link> : <></>}
+                  {user.role == roles.ADMIN ? <Link className="header__link" to="/productsManagement">
+                    Products Management
+                  </Link> : <></>}
                 </Nav>
               </Navbar.Collapse>
               <div className="header__options">
@@ -77,6 +88,7 @@ const Header: FC<HeaderProps> = () => {
                   {user.token !== "" ? 
                   <>
                     <Link to="" className="header__options__link">{user.username}</Link> 
+                    {user.role === roles.USER ? <Link to="/history" className="header__options__link">Order history</Link> : <></>}
                     <button className="header__options__link" onClick={logout}>
                         Log out
                     </button>
@@ -86,9 +98,9 @@ const Header: FC<HeaderProps> = () => {
                         <Link className="header__options__link" to="/login">
                             Sign in
                         </Link>
-                        {/*<Link className="header__options__link" to="/">
-                            Sign up (soon)
-                        </Link>*/}
+                        <Link className="header__options__link" to="/register">
+                            Sign up 
+                        </Link>
                     </>
                   }
                 </div>

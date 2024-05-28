@@ -1,0 +1,32 @@
+.productManagement{
+    margin: rem(80) 0 0 0;
+    padding: rem(30) rem(50);
+    height: auto;
+    //width: 100%;
+
+    &__productDetails {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        max-width: 100%;
+
+        &__img{
+            height: 300px;
+            width: 250px;
+            object-fit: cover;
+        }
+    }
+
+    &__modal{
+        margin: rem(80) 0 0 0;
+        max-height: 65%;
+    }
+
+    @include medium {
+        height: auto;
+    }
+
+    @include large {
+        overflow: scroll;
+        height: 100%;
+    }
+}

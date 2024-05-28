@@ -57,7 +57,7 @@ const Checkout = () => {
           city: shippingAddress.city,
           province: shippingAddress.province,
           zipCode: shippingAddress.zipCode,
-          cardNumber: cardDetails.cardNumber.slice(-3),
+          cardNumber: cardDetails.cardNumber.slice(-4),
           cardName: cardDetails.cardName,
           expiryDate: cardDetails.expiryDate,
           cvv: cardDetails.cvv,

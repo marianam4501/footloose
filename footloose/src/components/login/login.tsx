@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { userState } from "../../atoms/userState";
 import axios from "axios";
+import { roles } from "../../utils/roles";
 
 interface LoginProps {
   //children: React.ReactNode;
@@ -48,11 +49,11 @@ const Login: FC<LoginProps> = () => {
   }, [username, password]);
 
   async function handleLogIn() {
-      setSubmitDisabled(true);
+    setSubmitDisabled(true);
     try {
       const response = await axios.post("http://localhost:8080/auth/login", {
         email: username,
-        password: password
+        password: password,
       });
       if (response.status === 200) {
         const token = response.data.token;
@@ -60,11 +61,11 @@ const Login: FC<LoginProps> = () => {
         try {
           const response2 = await axios.get("http://localhost:8080/user/me", {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
 
-          if(response2.status == 200){
+          if (response2.status == 200) {
             setUser({
               id: response2.data.id,
               username: response2.data.email,
@@ -89,48 +90,50 @@ const Login: FC<LoginProps> = () => {
 
   return (
     <div className="login">
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            pauseOnHover={true}
-            closeButton={true}
-            hideProgressBar={true}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        pauseOnHover={true}
+        closeButton={true}
+        hideProgressBar={true}
+      />
+      <Form className="login__form">
+        <Form.Group controlId="formBasicEmail" className="mb-3">
+          <Form.Label className="login__label">Email address</Form.Label>
+          {/*className="login__label"*/}
+          <Form.Control
+            className=""
+            type="email"
+            placeholder="Enter your email"
+            /*value={username}*/
+            onChange={(e) => setUsernameValue(e.target.value)}
+            isInvalid={showErrorMessage}
           />
-          <Form className="login__form">
-            <Form.Group controlId="formBasicEmail" className="mb-3">
-              <Form.Label className="login__label">Email address</Form.Label>{/*className="login__label"*/}
-              <Form.Control
-                className=""
-                type="email"
-                placeholder="Enter your email"
-                /*value={username}*/
-                onChange={(e) => setUsernameValue(e.target.value)}
-                isInvalid={showErrorMessage}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errorMessage}
-              </Form.Control.Feedback>
-            </Form.Group>
-            
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label className="login__label">Password</Form.Label>{/*className="login__label"*/}
-              <Form.Control
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPasswordValue(e.target.value)}
-              />
-            </Form.Group>
+          <Form.Control.Feedback type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        </Form.Group>
 
-            <Button
-              id="btn"
-              className="my-3"
-              onClick={handleLogIn}
-              disabled={submitDisabled}
-            >
-              Sign in
-            </Button>
-          </Form>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label className="login__label">Password</Form.Label>
+          {/*className="login__label"*/}
+          <Form.Control
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPasswordValue(e.target.value)}
+          />
+        </Form.Group>
+
+        <Button
+          id="btn"
+          className="my-3"
+          onClick={handleLogIn}
+          disabled={submitDisabled}
+        >
+          Sign in
+        </Button>
+      </Form>
     </div>
   );
 };
