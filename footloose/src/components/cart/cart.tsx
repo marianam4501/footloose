@@ -58,9 +58,9 @@ const Cart: FC<CartProps> = () => {
           console.error("Error fetching cart:", error);
         } finally {
           setLoading(false);
-          console.log("products", cart.products.length);
+          //console.log("products", cart.products.length);
           if (cart.products.length > 0) {
-            console.log(cart.products);
+            //console.log(cart.products);
             setNoProducts(false);
           } else {
             setNoProducts(true);

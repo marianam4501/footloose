@@ -134,10 +134,10 @@ const Products: FC<ProductsProps> = () => {
       if(currentProduct.sizes !== ""){
         requestBody = {...requestBody, sizes: currentProduct.sizes};
       }
-      console.log("Body: ",requestBody);
+      //console.log("Body: ",requestBody);
       const updateStatus = async () => {
         try {
-          console.log("Body: ",requestBody);
+          //console.log("Body: ",requestBody);
           await axios.put<ProductObject>(
             "http://localhost:8080/product/edit",
             requestBody,
@@ -187,7 +187,7 @@ const Products: FC<ProductsProps> = () => {
 
   async function handleAdd() {
     if (user.role == roles.ADMIN && addReady) {
-      console.log("current", currentProduct);
+      //console.log("current", currentProduct);
       //const sizes = convertStringToArray(currentProduct.sizes);
       //console.log(sizes);
       const updateStatus = async () => {

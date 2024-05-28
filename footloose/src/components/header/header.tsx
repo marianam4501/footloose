@@ -41,7 +41,7 @@ const Header: FC<HeaderProps> = () => {
     navigate("/login");
   };
 
-  console.log(user);
+  //console.log(user);
 
   return (
     <>

@@ -31,7 +31,7 @@ const Checkout = () => {
   }, [cardReady, shippingReady]);
 
   const handleCompleteOrder = async () => {
-    console.log("asd1");
+    //console.log("asd1");
     if (
       !cardDetails ||
       !cardDetails.cardNumber ||
@@ -39,14 +39,14 @@ const Checkout = () => {
       !cardDetails.expiryDate ||
       !cardDetails.cvv
     ) {
-      console.log("asd2");
+      //console.log("asd2");
 
       toast.error("Missing card details. Please check your card information.");
       return;
     }
-    console.log("asd3");
+    //console.log("asd3");
 
-    console.log("Listos para completar la orden.");
+    //console.log("Listos para completar la orden.");
 
     try {
       const response = await axios.post(
@@ -68,14 +68,14 @@ const Checkout = () => {
           },
         }
       );
-      console.log("Ya se llamo.");
+      //console.log("Ya se llamo.");
       if (response.status === 200) {
-        console.log("200");
+        //console.log("200");
         toast.success("Order completed. Thank you!");
         navigate("/");
       }
     } catch (error) {
-      console.log("Error.");
+      //console.log("Error.");
       toast.error("Failed to complete order. Please try again.");
     }
   };

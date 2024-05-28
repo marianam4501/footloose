@@ -18,6 +18,7 @@ import RegisterView from './views/signup';
 import OrderHistoryView from './views/orderHistory';
 import OrderDetailsView from './views/orderDetails';
 import ProductManagementView from './views/productManagement';
+import { roles } from './utils/roles';
 
 function App() {
   // const [, setProductList] = useRecoilState(productState);
@@ -44,7 +45,6 @@ function App() {
       <Route path="/" Component={Home} />
       <Route path="/products" Component={ProductListView} />
       <Route path="/login" Component={LoginView} />
-      <Route path="/login" Component={LoginView} />
       <Route path="/register" Component={RegisterView} />
       <Route path="/details/:id" Component={ProductDetailsView} />
       <Route path="/products/details/:id" Component={ProductDetailsView} />
@@ -52,12 +52,16 @@ function App() {
       <Route path="/*" Component={NotFoundView} />
       {/* <Route path="/cart" Component={CartView} />
       <Route path="/checkout" Component={CheckoutView} /> */}
-      <Route element={<PrivateRoutes/>}>
+      <Route element={<PrivateRoutes allowedRoles={[roles.USER]}/>}>
         <Route path="/cart" Component={CartView} />
         <Route path="/checkout" Component={CheckoutView} />
+      </Route>
+      <Route element={<PrivateRoutes allowedRoles={[roles.ADMIN]}/>}>
+        <Route path="/productManagement" Component={ProductManagementView} />
+      </Route>
+      <Route element={<PrivateRoutes allowedRoles={[roles.USER, roles.ADMIN]}/>}>
         <Route path="/history" Component={OrderHistoryView} />
         <Route path="/orderDetails/:id" Component={OrderDetailsView} />
-        <Route path="/productManagement" Component={ProductManagementView} />
       </Route>
     </Routes>
   )

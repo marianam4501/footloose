@@ -15,6 +15,7 @@ import { userState } from "../../atoms/userState";
 import { useRecoilValue } from "recoil";
 import useAddToCart from "../../hooks/useAddToCart";
 import { productState } from "../../atoms/productState";
+import { roles } from "../../utils/roles";
 interface DetailsProps {}
 
 const ProductDetails: FC<DetailsProps> = () => {
@@ -33,7 +34,10 @@ const ProductDetails: FC<DetailsProps> = () => {
   const { addToCart } = useAddToCart();
 
   // Ensure productId is valid before accessing productList
-  const product = productId !== undefined ? productList.find(product => product.id === productId) : undefined;
+  const product =
+    productId !== undefined
+      ? productList.find((product) => product.id === productId)
+      : undefined;
 
   const handleDecrement = () => {
     if (quantity > 1) {
@@ -48,12 +52,12 @@ const ProductDetails: FC<DetailsProps> = () => {
   const handleAddToCart = async () => {
     if (product && user) {
       try {
-        if(selectedSize === "Select size") {
+        if (selectedSize === "Select size") {
           await addToCart(productId, quantity, sizes[0]);
         } else {
           await addToCart(productId, quantity, selectedSize);
         }
-        
+
         // No hay error al llegar aquí
         setAddedToCart(true);
         toast.success("Product added to cart!");
@@ -72,13 +76,13 @@ const ProductDetails: FC<DetailsProps> = () => {
 
   useEffect(() => {
     if (product) {
-      console.log(product.sizes);
+      //console.log(product.sizes);
       if (product.sizes) {
         setSizes(
           product.sizes
             .split(",") // Divide la cadena en un arreglo usando la coma como delimitador
             .map((size) => size.trim()) // Elimina espacios en blanco alrededor de cada elemento
-            .filter((size) => !isNaN(Number(size)) && size !== '') // Filtra solo los valores que son números y no están vacíos
+            .filter((size) => !isNaN(Number(size)) && size !== "") // Filtra solo los valores que son números y no están vacíos
         );
       }
     }
@@ -109,63 +113,68 @@ const ProductDetails: FC<DetailsProps> = () => {
                     Description: {product.description}
                   </Card.Text>
 
-                  <div className="productDetails__shoppingDetails">
-                    <Dropdown>
-                      <DropdownButton
-                        id="dropdownMenuButton"
-                        title={selectedSize}
-                      >
-                        {sizes.map((size) => (
-                          <DropdownItem
-                            key={size}
-                            onClick={() => setSelectedSize(size)}
-                          >
-                            {size}
-                          </DropdownItem>
-                        ))}
-                      </DropdownButton>
-                    </Dropdown>
+                  {user.role === roles.USER ? (
+                    <div className="productDetails__shoppingDetails">
+                      <Dropdown>
+                        <DropdownButton
+                          id="dropdownMenuButton"
+                          title={selectedSize}
+                        >
+                          {sizes.map((size) => (
+                            <DropdownItem
+                              key={size}
+                              onClick={() => setSelectedSize(size)}
+                            >
+                              {size}
+                            </DropdownItem>
+                          ))}
+                        </DropdownButton>
+                      </Dropdown>
 
-                    <div className="productDetails__quantity">
-                      <p className="productDetails__quantity__title">
-                        Quantity:{" "}
-                      </p>
+                      <div className="productDetails__quantity">
+                        <p className="productDetails__quantity__title">
+                          Quantity:{" "}
+                        </p>
+                        <Button
+                          id="productDetails__quantity__btn"
+                          onClick={handleDecrement}
+                        >
+                          -
+                        </Button>
+                        <label className="productDetails__quantity__text">
+                          {quantity}
+                        </label>
+                        <Button
+                          id="productDetails__quantity__btn"
+                          onClick={handleIncrement}
+                        >
+                          +
+                        </Button>
+                      </div>
+
                       <Button
-                        id="productDetails__quantity__btn"
-                        onClick={handleDecrement}
+                        id={addedToCart ? "addToCartClicked" : "addToCart"}
+                        onClick={addedToCart ? () => {} : handleAddToCart}
                       >
-                        -
-                      </Button>
-                      <label className="productDetails__quantity__text">
-                        {quantity}
-                      </label>
-                      <Button
-                        id="productDetails__quantity__btn"
-                        onClick={handleIncrement}
-                      >
-                        +
+                        {" "}
+                        <FaShoppingCart className="header__options__option" />
+                        {addedToCart ? "Added!" : "Add to cart"}
                       </Button>
                     </div>
-                    <ToastContainer
-                      position="top-right"
-                      autoClose={5000}
-                      pauseOnHover={true}
-                      closeButton={true}
-                      hideProgressBar={true}
-                    />
-                    <Button
-                      id={addedToCart ? "addToCartClicked" : "addToCart"}
-                      onClick={addedToCart ? () => {} : handleAddToCart}
-                    >
-                      {" "}
-                      <FaShoppingCart className="header__options__option" />
-                      {addedToCart ? "Added!" : "Add to cart"}
-                    </Button>
-                  </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             </Card.Body>
           </Card>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            pauseOnHover={true}
+            closeButton={true}
+            hideProgressBar={true}
+          />
         </div>
       )}
     </>
