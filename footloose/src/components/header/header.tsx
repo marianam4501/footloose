@@ -70,7 +70,7 @@ const Header: FC<HeaderProps> = () => {
                   {user.role == roles.ADMIN ? <Link className="header__link" to="/history">
                     Orders Management
                   </Link> : <></>}
-                  {user.role == roles.ADMIN ? <Link className="header__link" to="/productsManagement">
+                  {user.role == roles.ADMIN ? <Link className="header__link" to="/productManagement">
                     Products Management
                   </Link> : <></>}
                 </Nav>
